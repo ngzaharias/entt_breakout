@@ -85,9 +85,6 @@
     <ClCompile Include="..\..\Source\Settings\MapSettings.cpp">
       <Filter>Source\Settings</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Include\imgui\imgui.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Application.h">

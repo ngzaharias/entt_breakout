@@ -39,12 +39,16 @@ int main()
 	shape.setPosition(sf::Vector2f(-50.f, -50.f));
 
 	sf::Clock deltaClock;
-	while (window.isOpen()) 
+
+	while (window.isOpen())
 	{
 		sf::Event event;
 		while (window.pollEvent(event)) 
 		{
 			ImGui::SFML::ProcessEvent(event);
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+				window.close();
 		}
 
 		ImGui::SFML::Update(window, deltaClock.restart());
