@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source\Game">
+      <UniqueIdentifier>{1bd0306f-8217-47df-8a06-22a8ccabf05f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Utility">
+      <UniqueIdentifier>{2fafc77b-4176-4f69-8f51-5bafe15cde62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Utility\Containers">
+      <UniqueIdentifier>{16ca3b02-aae6-4b5e-bc17-d088f35a2d33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Gameplay">
+      <UniqueIdentifier>{a1c62337-e48d-4031-b04b-798d84a0f405}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Engine">
+      <UniqueIdentifier>{19fbf46a-bb57-4cde-a184-0078a2912e07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Settings">
+      <UniqueIdentifier>{51cc332b-0bff-48a2-88ed-e01c480d60ff}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Source\Main.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Game\GameApplication.cpp">
+      <Filter>Source\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Application.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Game\Game.cpp">
+      <Filter>Source\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Game\Actor.cpp">
+      <Filter>Source\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Gameplay\Ball.cpp">
+      <Filter>Source\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Gameplay\Brick.cpp">
+      <Filter>Source\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Gameplay\Map.cpp">
+      <Filter>Source\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Gameplay\Paddle.cpp">
+      <Filter>Source\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Engine\Physics.cpp">
+      <Filter>Source\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Gameplay\Wall.cpp">
+      <Filter>Source\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Engine\Screen.cpp">
+      <Filter>Source\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Utility\Math.cpp">
+      <Filter>Source\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Utility\VectorHelper.cpp">
+      <Filter>Source\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Gameplay\RespawnZone.cpp">
+      <Filter>Source\Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Utility\JsonHelper.cpp">
+      <Filter>Source\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Settings\BallSettings.cpp">
+      <Filter>Source\Settings</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Settings\BrickSettings.cpp">
+      <Filter>Source\Settings</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Settings\PaddleSettings.cpp">
+      <Filter>Source\Settings</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Settings\MapSettings.cpp">
+      <Filter>Source\Settings</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Include\imgui\imgui.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Source\Application.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Game\GameApplication.h">
+      <Filter>Source\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Game\Game.h">
+      <Filter>Source\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Game\Actor.h">
+      <Filter>Source\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Utility\Containers\Grid.h">
+      <Filter>Source\Utility\Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Utility\Math.h">
+      <Filter>Source\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Gameplay\Ball.h">
+      <Filter>Source\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Gameplay\Brick.h">
+      <Filter>Source\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Gameplay\Map.h">
+      <Filter>Source\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Gameplay\Paddle.h">
+      <Filter>Source\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Engine\Physics.h">
+      <Filter>Source\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Gameplay\Wall.h">
+      <Filter>Source\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Utility\Random.h">
+      <Filter>Source\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Utility\VectorHelper.h">
+      <Filter>Source\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Engine\Screen.h">
+      <Filter>Source\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Gameplay\RespawnZone.h">
+      <Filter>Source\Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Utility\JsonHelper.h">
+      <Filter>Source\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Settings\BallSettings.h">
+      <Filter>Source\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Settings\BrickSettings.h">
+      <Filter>Source\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Settings\PaddleSettings.h">
+      <Filter>Source\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Settings\MapSettings.h">
+      <Filter>Source\Settings</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

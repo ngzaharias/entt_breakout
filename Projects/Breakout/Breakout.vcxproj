@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Include\imgui\imgui.cpp" />
+    <ClCompile Include="..\..\Source\Application.cpp" />
+    <ClCompile Include="..\..\Source\Engine\Physics.cpp" />
+    <ClCompile Include="..\..\Source\Engine\Screen.cpp" />
+    <ClCompile Include="..\..\Source\Gameplay\Ball.cpp" />
+    <ClCompile Include="..\..\Source\Gameplay\Brick.cpp" />
+    <ClCompile Include="..\..\Source\Gameplay\Map.cpp" />
+    <ClCompile Include="..\..\Source\Gameplay\Paddle.cpp" />
+    <ClCompile Include="..\..\Source\Gameplay\RespawnZone.cpp" />
+    <ClCompile Include="..\..\Source\Gameplay\Wall.cpp" />
+    <ClCompile Include="..\..\Source\Game\Actor.cpp" />
+    <ClCompile Include="..\..\Source\Game\Game.cpp" />
+    <ClCompile Include="..\..\Source\Game\GameApplication.cpp" />
+    <ClCompile Include="..\..\Source\Main.cpp" />
+    <ClCompile Include="..\..\Source\Settings\BallSettings.cpp" />
+    <ClCompile Include="..\..\Source\Settings\BrickSettings.cpp" />
+    <ClCompile Include="..\..\Source\Settings\MapSettings.cpp" />
+    <ClCompile Include="..\..\Source\Settings\PaddleSettings.cpp" />
+    <ClCompile Include="..\..\Source\Utility\JsonHelper.cpp" />
+    <ClCompile Include="..\..\Source\Utility\Math.cpp" />
+    <ClCompile Include="..\..\Source\Utility\VectorHelper.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Source\Application.h" />
+    <ClInclude Include="..\..\Source\Engine\Physics.h" />
+    <ClInclude Include="..\..\Source\Engine\Screen.h" />
+    <ClInclude Include="..\..\Source\Gameplay\Ball.h" />
+    <ClInclude Include="..\..\Source\Gameplay\Brick.h" />
+    <ClInclude Include="..\..\Source\Gameplay\Map.h" />
+    <ClInclude Include="..\..\Source\Gameplay\Paddle.h" />
+    <ClInclude Include="..\..\Source\Gameplay\RespawnZone.h" />
+    <ClInclude Include="..\..\Source\Gameplay\Wall.h" />
+    <ClInclude Include="..\..\Source\Game\Actor.h" />
+    <ClInclude Include="..\..\Source\Game\Game.h" />
+    <ClInclude Include="..\..\Source\Game\GameApplication.h" />
+    <ClInclude Include="..\..\Source\Settings\BallSettings.h" />
+    <ClInclude Include="..\..\Source\Settings\BrickSettings.h" />
+    <ClInclude Include="..\..\Source\Settings\MapSettings.h" />
+    <ClInclude Include="..\..\Source\Settings\PaddleSettings.h" />
+    <ClInclude Include="..\..\Source\Utility\Containers\Grid.h" />
+    <ClInclude Include="..\..\Source\Utility\JsonHelper.h" />
+    <ClInclude Include="..\..\Source\Utility\Math.h" />
+    <ClInclude Include="..\..\Source\Utility\Random.h" />
+    <ClInclude Include="..\..\Source\Utility\VectorHelper.h" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{2471547F-763A-49BA-9A17-6814171F1849}</ProjectGuid>
+    <RootNamespace>Breakout</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="PropertySheet\General.props" />
+    <Import Project="PropertySheet\Debug.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="PropertySheet\General.props" />
+    <Import Project="PropertySheet\Release.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link />
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
