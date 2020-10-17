@@ -1,5 +1,4 @@
-#ifndef SCREEN_H
-#define SCREEN_H
+#pragma once
 
 #include <SFML/System/Vector2.hpp>
 
@@ -24,4 +23,3 @@ private:
 	static sf::RenderWindow* s_window;
 
 };
-#endif

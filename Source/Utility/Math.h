@@ -1,5 +1,4 @@
-#ifndef MATH_H
-#define MATH_H
+#pragma once
 
 namespace Math
 {
@@ -20,4 +19,3 @@ namespace Math
 
 	float Sign(float value);
 }
-#endif

@@ -1,5 +1,4 @@
-#ifndef JSON_HELPER_H
-#define JSON_HELPER_H
+#pragma once
 
 #include <rapidjson/document.h>
 
@@ -13,4 +12,3 @@ namespace JsonHelper
 	int ParseInt(const rapidjson::Value& value, const char* member, int default = 0);
 	const char* ParseString(const rapidjson::Value& value, const char* member, const char* default = "");
 }
-#endif

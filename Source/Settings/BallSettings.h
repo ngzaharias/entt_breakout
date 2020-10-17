@@ -1,5 +1,4 @@
-#ifndef BALL_SETTINGS_H
-#define BALL_SETTINGS_H
+#pragma once
 
 #include <rapidjson/document.h>
 #include <SFML/System/Vector2.hpp>
@@ -13,4 +12,3 @@ struct BallSettings
 	float velocityMin = 500.0f;
 	float velocityMax = 1500.0f;
 };
-#endif

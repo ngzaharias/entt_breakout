@@ -1,5 +1,4 @@
-#ifndef MAP_H
-#define MAP_H
+#pragma once
 
 #include "Settings/BallSettings.h"
 #include "Settings/BrickSettings.h"
@@ -67,4 +66,3 @@ protected:
 	int m_score = 0;
 
 };
-#endif

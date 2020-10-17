@@ -1,5 +1,4 @@
-#ifndef BALL_H
-#define BALL_H
+#pragma once
 
 #include "Engine/Physics.h"
 #include "Game/Actor.h"
@@ -38,5 +37,3 @@ protected:
 	BallSettings m_settings;
 
 };
-#endif
-

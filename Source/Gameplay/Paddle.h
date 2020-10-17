@@ -1,5 +1,4 @@
-#ifndef PADDLE_H
-#define PADDLE_H
+#pragma once
 
 #include "Engine/Physics.h"
 #include "Game/Actor.h"
@@ -35,5 +34,3 @@ public:
 	Collider m_collider;
 
 };
-#endif
-

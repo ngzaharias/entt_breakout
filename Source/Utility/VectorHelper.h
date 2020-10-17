@@ -1,5 +1,4 @@
-#ifndef VECTOR_HELPER_H
-#define VECTOR_HELPER_H
+#pragma once
 
 #include <SFML/System/Vector2.hpp>
 
@@ -10,4 +9,3 @@ namespace VectorHelper
 	sf::Vector2f Normalize(const sf::Vector2f& value);
 	sf::Vector2f Reflect(const sf::Vector2f& vector, const sf::Vector2f& normal);
 }
-#endif

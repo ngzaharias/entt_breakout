@@ -1,5 +1,4 @@
-#ifndef ACTOR_H
-#define ACTOR_H
+#pragma once
 
 #include <SFML/System/Vector2.hpp>
 
@@ -28,4 +27,3 @@ protected:
 	sf::Vector2f m_position;
 
 };
-#endif

@@ -1,5 +1,4 @@
-#ifndef GAME_APPLICATION_H
-#define GAME_APPLICATION_H
+#pragma once
 
 #include "Application.h"
 
@@ -25,10 +24,8 @@ protected:
 	virtual bool Draw() override;
 
 protected:
-	sf::Clock* m_clock;
-	sf::RenderWindow* m_window;
+	sf::Clock* m_Clock;
+	sf::RenderWindow* m_Window;
 
-	Game* m_game;
+	Game* m_Game;
 };
-#endif
-

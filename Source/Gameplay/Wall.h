@@ -1,5 +1,4 @@
-#ifndef WALL_H
-#define WALL_H
+#pragma once
 
 #include "Game/Actor.h"
 
@@ -20,5 +19,3 @@ public:
 public:
 	Collider m_collider;
 };
-#endif
-

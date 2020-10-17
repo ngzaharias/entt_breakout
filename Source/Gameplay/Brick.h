@@ -1,5 +1,4 @@
-#ifndef BRICK_H
-#define BRICK_H
+#pragma once
 
 #include "Engine/Physics.h"
 #include "Game/Actor.h"
@@ -28,4 +27,3 @@ public:
 	sf::RectangleShape m_sprite = sf::RectangleShape();
 	Collider m_collider;
 };
-#endif

@@ -1,5 +1,4 @@
-#ifndef RESPAWN_H
-#define RESPAWN_H
+#pragma once
 
 #include "Engine/Physics.h"
 #include "Game/Actor.h"
@@ -23,5 +22,3 @@ public:
 public:
 	Collider m_collider;
 };
-#endif
-

@@ -1,5 +1,4 @@
-#ifndef PHYSICS_H
-#define PHYSICS_H
+#pragma once
 
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/System/Vector2.hpp>
@@ -60,4 +59,3 @@ private:
 	std::vector<Rigidbody*> m_rigidbodies;
 
 };
-#endif
