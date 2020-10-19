@@ -12,8 +12,9 @@
     </PostBuildEvent>
     <ClCompile>
       <AdditionalIncludeDirectories>$(SolutionDir)\Source\;$(SolutionDir)\Include\;$(SolutionDir)\Include\imgui\;$(SolutionDir)\Include\imgui-sfml\</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING;SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <PreprocessorDefinitions>SFML_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)\Library\;$(SolutionDir)\Library\SFML\;$(SolutionDir)\Build\$(Configuration)_$(PlatformTarget)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>

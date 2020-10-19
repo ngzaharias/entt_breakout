@@ -194,7 +194,7 @@ public:
     /**
      * @brief Direct access to the array of objects.
      *
-     * The returned pointer is such that range `[raw(), raw() + size())` is
+     * The returned pointer is such that range `[raw(), raw() + size()]` is
      * always a valid range, even if the container is empty.
      *
      * @note
@@ -424,7 +424,7 @@ public:
      *
      * @param entt A valid entity identifier.
      */
-    void erase(const entity_type entt) override {
+    void erase(const entity_type entt) {
         auto other = std::move(instances.back());
         instances[underlying_type::index(entt)] = std::move(other);
         instances.pop_back();

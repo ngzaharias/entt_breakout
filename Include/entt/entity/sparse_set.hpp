@@ -266,7 +266,7 @@ public:
     /**
      * @brief Direct access to the internal packed array.
      *
-     * The returned pointer is such that range `[data(), data() + size())` is
+     * The returned pointer is such that range `[data(), data() + size()]` is
      * always a valid range, even if the container is empty.
      *
      * @note
@@ -408,9 +408,10 @@ public:
         auto next = static_cast<typename traits_type::entity_type>(packed.size());
         packed.insert(packed.end(), first, last);
 
-        for(; first != last; ++first) {
-            ENTT_ASSERT(!contains(*first));
-            assure(page(*first))[offset(*first)] = entity_type{next++};
+        while(first != last) {
+            const auto entt = *(first++);
+            ENTT_ASSERT(!contains(entt));
+            assure(page(entt))[offset(entt)] = entity_type{next++};
         }
     }
 
@@ -425,7 +426,7 @@ public:
      *
      * @param entt A valid entity identifier.
      */
-    virtual void erase(const entity_type entt) {
+    void erase(const entity_type entt) {
         ENTT_ASSERT(contains(entt));
         const auto curr = page(entt);
         const auto pos = offset(entt);

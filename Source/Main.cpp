@@ -1,5 +1,7 @@
-#include "Application.h"
-#include "Game/GameApplication.h"
+#include "Application.hpp"
+#include "GameApplication.hpp"
+
+#include <entt/entt.hpp>
 
 #include <direct.h>
 
@@ -10,7 +12,7 @@ int main(int agrc, char* argv[])
 	_chdir("../../");
 
 	application = new GameApplication();
-	application->Run(agrc, argv);
+	application->Execute(agrc, argv);
 	delete(application);
 	application = nullptr;
 
