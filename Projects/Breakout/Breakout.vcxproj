@@ -24,6 +24,7 @@
     <ClInclude Include="..\..\Source\Components\Tags.hpp" />
     <ClInclude Include="..\..\Source\Components\Transform.hpp" />
     <ClInclude Include="..\..\Source\Components\Velocity.hpp" />
+    <ClInclude Include="..\..\Source\EnttDebugger.hpp" />
     <ClInclude Include="..\..\Source\Game.hpp" />
     <ClInclude Include="..\..\Source\GameApplication.hpp" />
     <ClInclude Include="..\..\Source\JsonHelper.hpp" />
@@ -33,6 +34,7 @@
     <ClInclude Include="..\..\Source\PaddleSettings.hpp" />
     <ClInclude Include="..\..\Source\Random.hpp" />
     <ClInclude Include="..\..\Source\Screen.hpp" />
+    <ClInclude Include="..\..\Source\StringHelper.hpp" />
     <ClInclude Include="..\..\Source\Systems\Level.hpp" />
     <ClInclude Include="..\..\Source\Systems\Renderer.hpp" />
     <ClInclude Include="..\..\Source\Systems\Scene.hpp" />
@@ -42,6 +44,7 @@
     <ClCompile Include="..\..\Source\Application.cpp" />
     <ClCompile Include="..\..\Source\BallSettings.cpp" />
     <ClCompile Include="..\..\Source\BrickSettings.cpp" />
+    <ClCompile Include="..\..\Source\EnttDebugger.cpp" />
     <ClCompile Include="..\..\Source\Game.cpp" />
     <ClCompile Include="..\..\Source\GameApplication.cpp" />
     <ClCompile Include="..\..\Source\JsonHelper.cpp" />
@@ -51,10 +54,14 @@
     <ClCompile Include="..\..\Source\Math.cpp" />
     <ClCompile Include="..\..\Source\PaddleSettings.cpp" />
     <ClCompile Include="..\..\Source\Screen.cpp" />
+    <ClCompile Include="..\..\Source\StringHelper.cpp" />
     <ClCompile Include="..\..\Source\Systems\Level.cpp" />
     <ClCompile Include="..\..\Source\Systems\Renderer.cpp" />
     <ClCompile Include="..\..\Source\Systems\Scene.cpp" />
     <ClCompile Include="..\..\Source\VectorHelper.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Source\EnttDebugger.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{2471547F-763A-49BA-9A17-6814171F1849}</ProjectGuid>

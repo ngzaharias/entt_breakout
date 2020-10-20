@@ -91,6 +91,12 @@
     <ClInclude Include="..\..\Source\Components\Camera.hpp">
       <Filter>Source\Components</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\EnttDebugger.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\StringHelper.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\BallSettings.cpp">
@@ -141,5 +147,16 @@
     <ClCompile Include="..\..\Source\Systems\Level.cpp">
       <Filter>Source\Systems</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\EnttDebugger.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\StringHelper.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Source\EnttDebugger.inl">
+      <Filter>Source</Filter>
+    </None>
   </ItemGroup>
 </Project>

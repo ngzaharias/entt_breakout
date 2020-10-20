@@ -7,6 +7,7 @@
 #include "Screen.hpp"
 #include "VectorHelper.hpp"
 
+#include "Components/Camera.hpp"
 #include "Components/Collider.hpp"
 #include "Components/Level.hpp"
 #include "Components/Name.hpp"
@@ -62,12 +63,13 @@ void Map::Draw(sf::RenderWindow* window)
 
 void Map::Load(entt::registry& registry)
 {
-	std::string levelName = "Assets/Settings/Maps/BasicMap.json";
+	std::string levelPath = "Assets/Settings/Maps/BasicMap.json";
+	std::string levelName = "BasicMap";
 
 	// level
 	{
 		rapidjson::Document document;
-		if (JsonHelper::LoadDocument(levelName.c_str(), document) == true)
+		if (JsonHelper::LoadDocument(levelPath.c_str(), document) == true)
 		{
 			LoadSettings(document);
 		}
@@ -107,7 +109,9 @@ void Map::Load(entt::registry& registry)
 
 		collider.m_Extents = m_BallSettings.size * 0.5f;
 		level.m_Name = levelName;
-		name.m_Name = "ball";
+		level.m_Path = levelPath;
+		name.m_Name = "ball_0";
+		name.m_Name += " (" + level.m_Name + ")";
 		sprite.setFillColor(sf::Color::Blue);
 		sprite.setOrigin(m_BallSettings.size * 0.5f);
 		sprite.setSize(m_BallSettings.size);
@@ -116,6 +120,7 @@ void Map::Load(entt::registry& registry)
 	}
 
 	// bricks
+	int index = 0;
 	for (const BrickSettings& settings : m_BrickSettings)
 	{
 		entt::entity entity = registry.create();
@@ -128,11 +133,29 @@ void Map::Load(entt::registry& registry)
 
 		collider.m_Extents = settings.size * 0.5f;
 		level.m_Name = levelName;
-		name.m_Name = "brick";
+		level.m_Path = levelPath;
+		name.m_Name = "brick_" + std::to_string(index++);
+		name.m_Name += " (" + level.m_Name + ")";
 		sprite.setFillColor(sf::Color::Green);
 		sprite.setOrigin(settings.size * 0.5f);
 		sprite.setSize(settings.size);
 		transform.m_Translate = settings.position;
+	}
+
+	// camera
+	{
+		entt::entity entity = registry.create();
+		auto& camera = registry.emplace<core::Camera>(entity);
+		auto& level = registry.emplace<core::Level>(entity);
+		auto& name = registry.emplace<debug::Name>(entity);
+		auto& transform = registry.emplace<core::Transform>(entity);
+
+		camera.m_View = sf::View(sf::FloatRect(0.f, 0.f, Screen::width, Screen::height));
+		level.m_Name = levelName;
+		level.m_Path = levelPath;
+		name.m_Name = "camera_0";
+		name.m_Name += " (" + level.m_Name + ")";
+		transform.m_Translate = sf::Vector2f(0.f, 0.f);
 	}
 
 	// paddles
@@ -147,7 +170,9 @@ void Map::Load(entt::registry& registry)
 
 		collider.m_Extents = m_PaddleSettings.size * 0.5f;
 		level.m_Name = levelName;
-		name.m_Name = "paddle";
+		level.m_Path = levelPath;
+		name.m_Name = "paddle_0";
+		name.m_Name += " (" + level.m_Name + ")";
 		sprite.setFillColor(sf::Color::White);
 		sprite.setOrigin(m_PaddleSettings.size * 0.5f);
 		sprite.setSize(m_PaddleSettings.size);
@@ -166,7 +191,9 @@ void Map::Load(entt::registry& registry)
 
 		collider.m_Extents = sf::Vector2f(800.f, 20.f);
 		level.m_Name = levelName;
-		name.m_Name = "respawn zone";
+		level.m_Path = levelPath;
+		name.m_Name = "respawn_zone_0";
+		name.m_Name += " (" + level.m_Name + ")";
 		sprite.setFillColor(sf::Color::Transparent);
 		sprite.setOrigin(collider.m_Extents);
 		sprite.setSize(collider.m_Extents * 2.f);
@@ -185,7 +212,9 @@ void Map::Load(entt::registry& registry)
 
 		collider.m_Extents = sf::Vector2f(800.f, 20.f);
 		level.m_Name = levelName;
-		name.m_Name = "wall top";
+		level.m_Path = levelPath;
+		name.m_Name = "wall_0";
+		name.m_Name += " (" + level.m_Name + ")";
 		sprite.setFillColor(sf::Color::Transparent);
 		sprite.setOrigin(collider.m_Extents);
 		sprite.setSize(collider.m_Extents * 2.f);
@@ -204,7 +233,9 @@ void Map::Load(entt::registry& registry)
 
 		collider.m_Extents = sf::Vector2f(20.f, 600.f);
 		level.m_Name = levelName;
-		name.m_Name = "wall left";
+		level.m_Path = levelPath;
+		name.m_Name = "wall_1";
+		name.m_Name += " (" + level.m_Name + ")";
 		sprite.setFillColor(sf::Color::Transparent);
 		sprite.setOrigin(collider.m_Extents);
 		sprite.setSize(collider.m_Extents * 2.f);
@@ -223,7 +254,9 @@ void Map::Load(entt::registry& registry)
 
 		collider.m_Extents = sf::Vector2f(20.f, 600.f);
 		level.m_Name = levelName;
-		name.m_Name = "wall right";
+		level.m_Path = levelPath;
+		name.m_Name = "wall_2";
+		name.m_Name += " (" + level.m_Name + ")";
 		sprite.setFillColor(sf::Color::Transparent);
 		sprite.setOrigin(collider.m_Extents);
 		sprite.setSize(collider.m_Extents * 2.f);

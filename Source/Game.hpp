@@ -2,15 +2,9 @@
 
 #include <entt/fwd.hpp>
 
+#include "EnttDebugger.hpp"
 #include "Systems/Renderer.hpp"
 #include "Systems/Scene.hpp"
-
-#include "imgui_entt_entity_editor/imgui_entt_entity_editor.hpp"
-
-namespace entt
-{
-	using editor = MM::EntityEditor<entt::entity>;
-}
 
 namespace sf
 {
@@ -48,13 +42,10 @@ public:
 	entt::registry* m_Registry;
 	physics::Scene m_Scene;
 	render::Renderer m_Renderer;
+	debug::EnttDebugger m_EnttDebugger;
 
 	Map* m_Map;
 	bool m_IsPaused = false;
-
-public:
-	static entt::editor s_Editor;
-	static entt::entity s_Entity;
 
 protected:
 	static Game* s_Instance;
