@@ -43,8 +43,19 @@ namespace
 
 	bool HasComponent(const entt::registry& registry, const entt::entity& entity, const entt::id_type& typeId)
 	{
-		ENTT_ID_TYPE types[] = { typeId };
+		entt::id_type types[] = { typeId };
 		return registry.runtime_view(std::cbegin(types), std::cend(types)).contains(entity);
+	}
+}
+
+namespace
+{
+	template <>
+	void ComponentWidget<core::Camera>(entt::registry& registry, entt::entity& entity)
+	{
+		auto& component = registry.get<core::Camera>(entity);
+		if (ImGui::CollapsingHeader("Size"))
+			ImGui::DragFloat2("", &component.m_Size.x);
 	}
 
 	template <>
@@ -251,12 +262,10 @@ void debug::EnttDebugger::Render(entt::registry& registry)
 
 			ImGui::Separator();
 
-			std::vector<std::string> substrings;
-			string::Split(m_Filters.ComponentText, substrings);
-
+			std::vector<std::string> substrings = string::Split(m_Filters.ComponentText, " ");
 			for (const ComponentInfo& info : m_ComponentsRegistered)
 			{
-				if (!m_Filters.ComponentText.empty() && !string::Contains(info.Name, substrings))
+				if (!m_Filters.ComponentText.empty() && !string::ContainsAll(info.Name, substrings))
 					continue;
 
 				bool isInList = m_Filters.ComponentTypes.count(info.TypeId);
@@ -300,9 +309,7 @@ void debug::EnttDebugger::Render(entt::registry& registry)
 
 			ImGui::Separator();
 
-			std::vector<std::string> substrings;
-			string::Split(m_Filters.EntityText, substrings);
-
+			std::vector<std::string> substrings = string::Split(m_Filters.EntityText, " ");
 			auto& list = m_IsShowingOrphans ? m_EntitiesOrphaned : m_EntitiesMatched;
 			for (const entt::entity& entity : list)
 			{
@@ -311,7 +318,7 @@ void debug::EnttDebugger::Render(entt::registry& registry)
 					continue;
 
 				const std::string name = DebugName(registry, entity);
-				if (!m_Filters.EntityText.empty() && !string::Contains(name, substrings))
+				if (!m_Filters.EntityText.empty() && !string::ContainsAll(name, substrings))
 					continue;
 
 				ImGui::PushID(static_cast<int>(entity));
@@ -333,7 +340,8 @@ void debug::EnttDebugger::Render(entt::registry& registry)
 			if (registry.valid(m_EntitySelected))
 			{
 				ImGui::PushID(static_cast<int>(m_EntitySelected));
-				ImGui::Text("\t%s", DebugName(registry, m_EntitySelected).c_str());
+				ImGui::Text("Name: %s", DebugName(registry, m_EntitySelected).c_str());
+				ImGui::Text("ID:   %d", static_cast<int>(m_EntitySelected));
 				ImGui::NewLine();
 
 				for (const ComponentInfo& info : m_ComponentsRegistered)

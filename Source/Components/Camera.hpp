@@ -1,11 +1,11 @@
 #pragma once
 
-#include <SFML/Graphics/View.hpp>
+#include <SFML/System/Vector2.hpp>
 
 namespace core
 {
 	struct Camera
 	{
-		sf::View m_View;
+		sf::Vector2f m_Size;
 	};
 }

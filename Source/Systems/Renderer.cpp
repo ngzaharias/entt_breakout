@@ -23,9 +23,12 @@ void render::Renderer::Update(entt::registry& registry, sf::RenderWindow* window
 		{
 			auto& camera = cameraView.get<core::Camera>(cameraEntity);
 			auto& transform = cameraView.get<core::Transform>(cameraEntity);
-			camera.m_View.setCenter(transform.m_Translate);
-			camera.m_View.setRotation(transform.m_Rotate);
-			window->setView(camera.m_View);
+
+			sf::View view;
+			view.setCenter(transform.m_Translate);
+			view.setRotation(transform.m_Rotate);
+			view.setSize(camera.m_Size);
+			window->setView(view);
 		}
 
 		const auto renderView = registry.view<sf::RectangleShape, core::Transform>();

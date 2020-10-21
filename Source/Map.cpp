@@ -150,7 +150,7 @@ void Map::Load(entt::registry& registry)
 		auto& name = registry.emplace<debug::Name>(entity);
 		auto& transform = registry.emplace<core::Transform>(entity);
 
-		camera.m_View = sf::View(sf::FloatRect(0.f, 0.f, Screen::width, Screen::height));
+		camera.m_Size = sf::Vector2f(Screen::width, Screen::height);
 		level.m_Name = levelName;
 		level.m_Path = levelPath;
 		name.m_Name = "camera_0";
