@@ -117,6 +117,11 @@ class basic_registry {
         sigh<void(basic_registry &, const Entity)> update{};
     };
 
+	struct debug_data {
+		std::string name;
+		id_type type_id{};
+	};
+
     struct pool_data {
         id_type type_id{};
         std::unique_ptr<sparse_set<Entity>> pool{};
@@ -182,7 +187,7 @@ class basic_registry {
     [[nodiscard]] const pool_handler<Component> & assure() const {
         const sparse_set<entity_type> *cpool;
 
-        if constexpr(ENTT_FAST_PATH(has_type_index_v<Component>)) {
+		if constexpr (ENTT_FAST_PATH(has_type_index_v<Component>)) {
             const auto index = type_index<Component>::value();
 
             if(!(index < pools.size())) {
@@ -207,7 +212,9 @@ class basic_registry {
                         static_cast<pool_handler<Component> &>(target).remove(owner, entt);
                     }
                 }).pool.get();
-            } else {
+				debug.emplace_back(debug_data{ typeid(Component).name(), type_info<Component>::id() });
+			}
+			else {
                 cpool = it->pool.get();
             }
         }
@@ -1701,6 +1708,8 @@ public:
             func(vars[pos-1].type_id);
         }
     }
+
+	mutable std::vector<debug_data> debug{};
 
 private:
     std::vector<group_data> groups{};

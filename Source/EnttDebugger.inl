@@ -7,8 +7,7 @@ namespace
 }
 
 template <class Component>
-void debug::EnttDebugger::RegisterComponent(const std::string& name)
+void debug::EnttDebugger::RegisterComponent(WidgetCallback&& callback)
 {
-	const entt::id_type typeId = entt::type_info<Component>::id();
-	m_ComponentsRegistered.push_back({ typeId, name, ComponentWidget<Component> });
+	m_ComponentWidgets[entt::type_info<Component>::id()] = callback;
 }

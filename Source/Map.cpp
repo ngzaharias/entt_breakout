@@ -12,6 +12,7 @@
 #include "Components/Level.hpp"
 #include "Components/Name.hpp"
 #include "Components/Rigidbody.hpp"
+#include "Components/Sprite.hpp"
 #include "Components/Tags.hpp"
 #include "Components/Transform.hpp"
 #include "Components/Velocity.hpp"
@@ -19,7 +20,6 @@
 #include <entt/entt.hpp>
 #include <rapidjson/document.h>
 #include <SFML/Graphics.hpp>
-#include <SFML/Graphics/RectangleShape.hpp>
 
 Map::Map()
 {
@@ -97,7 +97,7 @@ void Map::Load(entt::registry& registry)
 		auto& collider = registry.emplace<physics::Collider>(entity);
 		auto& level = registry.emplace<core::Level>(entity);
 		auto& name = registry.emplace<debug::Name>(entity);
-		auto& sprite = registry.emplace<sf::RectangleShape>(entity);
+		auto& sprite = registry.emplace<render::Sprite>(entity);
 		auto& rigidbody = registry.emplace<physics::Rigidbody>(entity);
 		auto& tag = registry.emplace<tag::Ball>(entity);
 		auto& transform = registry.emplace<core::Transform>(entity);
@@ -112,9 +112,9 @@ void Map::Load(entt::registry& registry)
 		level.m_Path = levelPath;
 		name.m_Name = "ball_0";
 		name.m_Name += " (" + level.m_Name + ")";
-		sprite.setFillColor(sf::Color::Blue);
-		sprite.setOrigin(m_BallSettings.size * 0.5f);
-		sprite.setSize(m_BallSettings.size);
+		sprite.m_Shape.setFillColor(sf::Color::Blue);
+		sprite.m_Shape.setOrigin(m_BallSettings.size * 0.5f);
+		sprite.m_Shape.setSize(m_BallSettings.size);
 		transform.m_Translate = m_BallSettings.position;
 		velocity.m_Velocity = direction * m_BallSettings.velocityMin;
 	}
@@ -127,7 +127,7 @@ void Map::Load(entt::registry& registry)
 		auto& collider = registry.emplace<physics::Collider>(entity);
 		auto& level = registry.emplace<core::Level>(entity);
 		auto& name = registry.emplace<debug::Name>(entity);
-		auto& sprite = registry.emplace<sf::RectangleShape>(entity);
+		auto& sprite = registry.emplace<render::Sprite>(entity);
 		auto& tag = registry.emplace<tag::Brick>(entity);
 		auto& transform = registry.emplace<core::Transform>(entity);
 
@@ -136,9 +136,9 @@ void Map::Load(entt::registry& registry)
 		level.m_Path = levelPath;
 		name.m_Name = "brick_" + std::to_string(index++);
 		name.m_Name += " (" + level.m_Name + ")";
-		sprite.setFillColor(sf::Color::Green);
-		sprite.setOrigin(settings.size * 0.5f);
-		sprite.setSize(settings.size);
+		sprite.m_Shape.setFillColor(sf::Color::Green);
+		sprite.m_Shape.setOrigin(settings.size * 0.5f);
+		sprite.m_Shape.setSize(settings.size);
 		transform.m_Translate = settings.position;
 	}
 
@@ -164,7 +164,7 @@ void Map::Load(entt::registry& registry)
 		auto& collider = registry.emplace<physics::Collider>(entity);
 		auto& level = registry.emplace<core::Level>(entity);
 		auto& name = registry.emplace<debug::Name>(entity);
-		auto& sprite = registry.emplace<sf::RectangleShape>(entity);
+		auto& sprite = registry.emplace<render::Sprite>(entity);
 		auto& tag = registry.emplace<tag::Paddle>(entity);
 		auto& transform = registry.emplace<core::Transform>(entity);
 
@@ -173,9 +173,9 @@ void Map::Load(entt::registry& registry)
 		level.m_Path = levelPath;
 		name.m_Name = "paddle_0";
 		name.m_Name += " (" + level.m_Name + ")";
-		sprite.setFillColor(sf::Color::White);
-		sprite.setOrigin(m_PaddleSettings.size * 0.5f);
-		sprite.setSize(m_PaddleSettings.size);
+		sprite.m_Shape.setFillColor(sf::Color::White);
+		sprite.m_Shape.setOrigin(m_PaddleSettings.size * 0.5f);
+		sprite.m_Shape.setSize(m_PaddleSettings.size);
 		transform.m_Translate = m_PaddleSettings.position;
 	}
 
@@ -185,7 +185,7 @@ void Map::Load(entt::registry& registry)
 		auto& collider = registry.emplace<physics::Collider>(entity);
 		auto& level = registry.emplace<core::Level>(entity);
 		auto& name = registry.emplace<debug::Name>(entity);
-		auto& sprite = registry.emplace<sf::RectangleShape>(entity);
+		auto& sprite = registry.emplace<render::Sprite>(entity);
 		auto& tag = registry.emplace<tag::RespawnZone>(entity);
 		auto& transform = registry.emplace<core::Transform>(entity);
 
@@ -194,9 +194,9 @@ void Map::Load(entt::registry& registry)
 		level.m_Path = levelPath;
 		name.m_Name = "respawn_zone_0";
 		name.m_Name += " (" + level.m_Name + ")";
-		sprite.setFillColor(sf::Color::Transparent);
-		sprite.setOrigin(collider.m_Extents);
-		sprite.setSize(collider.m_Extents * 2.f);
+		sprite.m_Shape.setFillColor(sf::Color::Transparent);
+		sprite.m_Shape.setOrigin(collider.m_Extents);
+		sprite.m_Shape.setSize(collider.m_Extents * 2.f);
 		transform.m_Translate = sf::Vector2f(0.f, Screen::height * 0.5f);
 	}
 
@@ -206,7 +206,7 @@ void Map::Load(entt::registry& registry)
 		auto& collider = registry.emplace<physics::Collider>(entity);
 		auto& level = registry.emplace<core::Level>(entity);
 		auto& name = registry.emplace<debug::Name>(entity);
-		auto& sprite = registry.emplace<sf::RectangleShape>(entity);
+		auto& sprite = registry.emplace<render::Sprite>(entity);
 		auto& tag = registry.emplace<tag::Wall>(entity);
 		auto& transform = registry.emplace<core::Transform>(entity);
 
@@ -215,9 +215,9 @@ void Map::Load(entt::registry& registry)
 		level.m_Path = levelPath;
 		name.m_Name = "wall_0";
 		name.m_Name += " (" + level.m_Name + ")";
-		sprite.setFillColor(sf::Color::Transparent);
-		sprite.setOrigin(collider.m_Extents);
-		sprite.setSize(collider.m_Extents * 2.f);
+		sprite.m_Shape.setFillColor(sf::Color::Transparent);
+		sprite.m_Shape.setOrigin(collider.m_Extents);
+		sprite.m_Shape.setSize(collider.m_Extents * 2.f);
 		transform.m_Translate = sf::Vector2f(0.f, Screen::height * -0.5f);
 	}
 
@@ -227,7 +227,7 @@ void Map::Load(entt::registry& registry)
 		auto& collider = registry.emplace<physics::Collider>(entity);
 		auto& level = registry.emplace<core::Level>(entity);
 		auto& name = registry.emplace<debug::Name>(entity);
-		auto& sprite = registry.emplace<sf::RectangleShape>(entity);
+		auto& sprite = registry.emplace<render::Sprite>(entity);
 		auto& tag = registry.emplace<tag::Wall>(entity);
 		auto& transform = registry.emplace<core::Transform>(entity);
 
@@ -236,9 +236,9 @@ void Map::Load(entt::registry& registry)
 		level.m_Path = levelPath;
 		name.m_Name = "wall_1";
 		name.m_Name += " (" + level.m_Name + ")";
-		sprite.setFillColor(sf::Color::Transparent);
-		sprite.setOrigin(collider.m_Extents);
-		sprite.setSize(collider.m_Extents * 2.f);
+		sprite.m_Shape.setFillColor(sf::Color::Transparent);
+		sprite.m_Shape.setOrigin(collider.m_Extents);
+		sprite.m_Shape.setSize(collider.m_Extents * 2.f);
 		transform.m_Translate = sf::Vector2f(Screen::width * -0.5f, 0.f);
 	}
 
@@ -248,7 +248,7 @@ void Map::Load(entt::registry& registry)
 		auto& collider = registry.emplace<physics::Collider>(entity);
 		auto& level = registry.emplace<core::Level>(entity);
 		auto& name = registry.emplace<debug::Name>(entity);
-		auto& sprite = registry.emplace<sf::RectangleShape>(entity);
+		auto& sprite = registry.emplace<render::Sprite>(entity);
 		auto& tag = registry.emplace<tag::Wall>(entity);
 		auto& transform = registry.emplace<core::Transform>(entity);
 
@@ -257,9 +257,9 @@ void Map::Load(entt::registry& registry)
 		level.m_Path = levelPath;
 		name.m_Name = "wall_2";
 		name.m_Name += " (" + level.m_Name + ")";
-		sprite.setFillColor(sf::Color::Transparent);
-		sprite.setOrigin(collider.m_Extents);
-		sprite.setSize(collider.m_Extents * 2.f);
+		sprite.m_Shape.setFillColor(sf::Color::Transparent);
+		sprite.m_Shape.setOrigin(collider.m_Extents);
+		sprite.m_Shape.setSize(collider.m_Extents * 2.f);
 		transform.m_Translate = sf::Vector2f(Screen::width * 0.5f, 0.f);
 	}
 

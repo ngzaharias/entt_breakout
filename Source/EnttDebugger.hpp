@@ -17,22 +17,36 @@ namespace debug
 {
 	struct ComponentInfo
 	{
-		using Callback = std::function<void(entt::registry&, entt::entity&)>;
-
-		entt::id_type TypeId;
 		std::string Name;
-		Callback Widget;
+		entt::id_type TypeId;
 	};
 
-	struct Filters
+	struct ComponentSettings
 	{
-		std::set<entt::id_type> ComponentTypes;
-		std::string ComponentText = "";
-		std::string EntityText = "";
+		std::set<entt::id_type> FilterTypes;
+		std::string FilterText = "";
+		bool IsAutoRefreshEnabled = false;
+		bool IsRefreshRequested = true;
+	};
+
+	struct EntityInfo
+	{
+		std::string Name;
+		entt::entity Entity;
+	};
+
+	struct EntitySettings
+	{
+		std::string FilterText = "";
+		bool IsAutoRefreshEnabled = true;
+		bool IsRefreshRequested = false;
+		bool IsShowingOrphans = false;
 	};
 
 	class EnttDebugger
 	{
+		using WidgetCallback = std::function<void(entt::registry&, entt::entity&)>;
+
 	public:
 		EnttDebugger();
 		~EnttDebugger();
@@ -45,19 +59,22 @@ namespace debug
 
 	private:
 		template <class Component>
-		void RegisterComponent(const std::string& name);
+		void RegisterComponent(WidgetCallback&& callback);
+
+		void RenderComponents(entt::registry& registry);
+		void RenderEntities(entt::registry& registry);
+		void RenderSelected(entt::registry& registry);
 
 	private:
-		std::vector<ComponentInfo> m_ComponentsRegistered;
-		std::set<entt::entity> m_EntitiesMatched;
-		std::set<entt::entity> m_EntitiesOrphaned;
+		ComponentSettings m_ComponentSettings;
+		std::vector<ComponentInfo> m_ComponentInfo;
+		std::map<entt::id_type, WidgetCallback> m_ComponentWidgets;
+
+		EntitySettings m_EntitySettings;
 		entt::entity m_EntitySelected;
+		std::vector<EntityInfo> m_EntityInfo;
+		std::set<entt::entity> m_EntityOrphans;
 
-		Filters m_Filters;
-
-		bool m_IsAutoRefreshEnabled;
-		bool m_IsRefreshRequested;
-		bool m_IsShowingOrphans;
 		bool m_IsWindowVisible;
 	};
 }

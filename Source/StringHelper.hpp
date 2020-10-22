@@ -15,7 +15,10 @@ namespace string
 
 	std::vector<std::string> Split(const std::string& string, const std::string_view& delimiters = " .,:;'\"<>[]{}()\\|/");
 	
-	void Trim(std::string& string);
+	void Trim(std::string& string, const std::string_view& substring);
+	void TrimLeft(std::string& string, const std::string_view& substring);
+	void TrimRight(std::string& string, const std::string_view& substring);
+	void TrimWhitespace(std::string& string);
 
 	std::string ToLower(std::string string);
 	std::string ToUpper(std::string string);

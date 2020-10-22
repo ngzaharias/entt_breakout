@@ -21,6 +21,7 @@
     <ClInclude Include="..\..\Source\Components\Name.hpp" />
     <ClInclude Include="..\..\Source\Components\Rigidbody.hpp" />
     <ClInclude Include="..\..\Source\Components\Score.hpp" />
+    <ClInclude Include="..\..\Source\Components\Sprite.hpp" />
     <ClInclude Include="..\..\Source\Components\Tags.hpp" />
     <ClInclude Include="..\..\Source\Components\Transform.hpp" />
     <ClInclude Include="..\..\Source\Components\Velocity.hpp" />

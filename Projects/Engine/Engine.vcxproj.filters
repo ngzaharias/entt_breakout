@@ -97,6 +97,9 @@
     <ClInclude Include="..\..\Source\StringHelper.hpp">
       <Filter>Source</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Components\Sprite.hpp">
+      <Filter>Source\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\BallSettings.cpp">

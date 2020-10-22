@@ -47,7 +47,33 @@ std::vector<std::string> string::Split(const std::string& string, const std::str
 	return substrings;
 }
 
-void string::Trim(std::string& string)
+void string::Trim(std::string& string, const std::string_view& substring)
+{
+	TrimLeft(string, substring);
+	TrimRight(string, substring);
+}
+
+void string::TrimLeft(std::string& string, const std::string_view& substring)
+{
+	std::string::size_type a_size = string.size();
+	std::string::size_type b_size = substring.size();
+	std::string::size_type begin = 0;
+	std::string::size_type find = string.find(substring, begin);
+	if (find == begin)
+		string.erase(begin, b_size);
+}
+
+void string::TrimRight(std::string& string, const std::string_view& substring)
+{
+	std::string::size_type a_size = string.size();
+	std::string::size_type b_size = substring.size();
+	std::string::size_type begin = string.size() - std::min(a_size, b_size);
+	std::string::size_type find = string.find(substring, begin);
+	if (find == begin)
+		string.erase(begin, a_size);
+}
+
+void string::TrimWhitespace(std::string& string)
 {
 	std::string::size_type begin = string.find_first_not_of(whitespace, 0);
 	std::string::size_type end = string.find_last_not_of(whitespace) + 1;
