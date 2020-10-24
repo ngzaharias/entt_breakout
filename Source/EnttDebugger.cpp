@@ -33,10 +33,16 @@ namespace ImGui
 
 namespace
 {
-	std::string DebugName(const entt::registry& registry, const entt::entity& entity)
+	const char* DebugName(const entt::registry& registry, const entt::entity& entity)
 	{
-		if (const auto& component = registry.try_get<debug::Name>(entity))
-			return component->m_Name;
+		if (entity == entt::null)
+			return "null";
+
+		if (registry.valid(entity))
+		{
+			if (const auto& component = registry.try_get<debug::Name>(entity))
+				return component->m_Name.c_str();
+		}
 		return "<unknown> (unknown)";
 	}
 
@@ -52,11 +58,12 @@ debug::EnttDebugger::EnttDebugger()
 	, m_ComponentWidgets()
 	, m_ComponentSettings()
 	, m_EntitySettings()
-	, m_EntitySelected(entt::null)
 	, m_EntityInfo()
 	, m_EntityOrphans()
+	, m_Selection()
 	, m_IsWindowVisible(true)
 {
+	m_Selection.Undos.Push(entt::null);
 }
 
 debug::EnttDebugger::~EnttDebugger()
@@ -186,6 +193,36 @@ void debug::EnttDebugger::Update(entt::registry& registry, const sf::Time& time)
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::F11))
 		m_IsWindowVisible = !m_IsWindowVisible;
 
+	if (m_Selection.Request)
+	{
+		const auto& request = m_Selection.Request.value();
+		switch (request.first)
+		{
+		case Selection::Action::Select:
+			m_Selection.Current = request.second;
+			m_Selection.Undos.Push(m_Selection.Current);
+			m_Selection.Redos.RemoveAll();
+			break;
+		case Selection::Action::Undo:
+			if (m_Selection.Undos.GetCount() > 1)
+			{
+				m_Selection.Redos.Push(m_Selection.Current);
+				m_Selection.Undos.Pop();
+				m_Selection.Current = m_Selection.Undos.GetLast();
+			}
+			break;
+		case Selection::Action::Redo:
+			if (!m_Selection.Redos.IsEmpty())
+			{
+				m_Selection.Current = m_Selection.Redos.GetLast();
+				m_Selection.Undos.Push(m_Selection.Current);
+				m_Selection.Redos.Pop();
+			}
+			break;
+		}
+		m_Selection.Request.reset();
+	}
+
 	if (m_ComponentSettings.IsAutoRefreshEnabled || m_ComponentSettings.IsRefreshRequested)
 	{
 		m_ComponentInfo.clear();
@@ -257,10 +294,26 @@ void debug::EnttDebugger::Render(entt::registry& registry)
 
 	if (ImGui::BeginChild("right", { ImGui::GetWindowWidth() * 0.5f - 23.f, 0 }, false))
 	{
+		RenderUndoRedo(registry);
 		RenderSelected(registry);
 	}
 	ImGui::EndChild();
 	ImGui::End();
+}
+
+void debug::EnttDebugger::Select(const entt::entity& entity)
+{
+	m_Selection.Request = { Selection::Action::Select, entity };
+}
+
+void debug::EnttDebugger::Undo()
+{
+	m_Selection.Request = { Selection::Action::Undo, entt::null };
+}
+
+void debug::EnttDebugger::Redo()
+{
+	m_Selection.Request = { Selection::Action::Redo, entt::null };
 }
 
 void debug::EnttDebugger::RenderComponents(entt::registry& /*registry*/)
@@ -357,10 +410,10 @@ void debug::EnttDebugger::RenderEntities(entt::registry& registry)
 			{
 				for (const auto& entity : m_EntityOrphans)
 				{
-					bool isActive = entity == m_EntitySelected;
+					bool isActive = entity == m_Selection.Current;;
 					ImGui::PushID(static_cast<int>(entity));
 					if (ImGui::Checkbox("<unknown>", &isActive))
-						m_EntitySelected = m_EntitySelected == entity ? entt::null : entity;
+						Select(isActive ? entt::null : entity);
 					ImGui::PopID();
 				}
 			}
@@ -368,7 +421,7 @@ void debug::EnttDebugger::RenderEntities(entt::registry& registry)
 			{
 				for (const auto& info : m_EntityInfo)
 				{
-					bool isActive = info.Entity == m_EntitySelected;
+					bool isActive = info.Entity == m_Selection.Current;
 					if (!registry.valid(info.Entity))
 						continue;
 
@@ -377,7 +430,7 @@ void debug::EnttDebugger::RenderEntities(entt::registry& registry)
 
 					ImGui::PushID(static_cast<int>(info.Entity));
 					if (ImGui::Checkbox(info.Name.c_str(), &isActive))
-						m_EntitySelected = m_EntitySelected == info.Entity ? entt::null : info.Entity;
+						Select(isActive ? info.Entity : entt::null);
 					ImGui::PopID();
 				}
 			}
@@ -391,17 +444,17 @@ void debug::EnttDebugger::RenderSelected(entt::registry& registry)
 {
 	if (ImGui::BeginChild("selected", { 0, ImGui::GetWindowHeight() }, true))
 	{
-		if (registry.valid(m_EntitySelected))
+		if (registry.valid(m_Selection.Current))
 		{
-			ImGui::PushID(static_cast<int>(m_EntitySelected));
-			ImGui::Text("Name: %s", DebugName(registry, m_EntitySelected).c_str());
-			ImGui::Text("ID:   %d", static_cast<int>(m_EntitySelected));
+			ImGui::PushID(static_cast<int>(m_Selection.Current));
+			ImGui::Text("Name: %s", DebugName(registry, m_Selection.Current));
+			ImGui::Text("ID:   %d", static_cast<int>(m_Selection.Current));
 
 			ImGui::Separator();
 
 			for (const auto& info : m_ComponentInfo)
 			{
-				if (!HasComponent(registry, m_EntitySelected, info.TypeId))
+				if (!HasComponent(registry, m_Selection.Current, info.TypeId))
 					continue;
 
 				ImGui::PushID(info.TypeId);
@@ -411,7 +464,7 @@ void debug::EnttDebugger::RenderSelected(entt::registry& registry)
 					if (m_ComponentWidgets.count(info.TypeId))
 					{
 						const auto& callback = m_ComponentWidgets[info.TypeId];
-						callback(registry, m_EntitySelected);
+						callback(registry, m_Selection.Current);
 					}
 					ImGui::Unindent();
 				}
@@ -421,4 +474,44 @@ void debug::EnttDebugger::RenderSelected(entt::registry& registry)
 		}
 	}
 	ImGui::EndChild();
+}
+
+void debug::EnttDebugger::RenderUndoRedo(entt::registry& registry)
+{
+	ImGui::Indent(10.f);
+	ImGui::BeginGroup();
+	{
+		const int count = m_Selection.Undos.GetCount();
+		const char* items[Selection::Capacity];
+		for (int i = 0; i < Selection::Capacity; ++i)
+		{
+			const int index = count - 1 - i;
+			if (index >= 0)
+			{
+				const entt::entity& entity = m_Selection.Undos[index];
+				items[i] = DebugName(registry, entity);
+			}
+			else
+			{
+				items[i] = "";
+			}
+		}
+
+		int selected = 0;
+		ImGui::PushItemWidth(ImGui::GetWindowWidth() - 122.f);
+		if (ImGui::Combo("##history", &selected, items, Selection::Capacity))
+		{
+			const int index = count - 1 - selected;
+			Select(m_Selection.Undos[index]);
+		}
+		ImGui::PopItemWidth();
+		ImGui::SameLine();
+		if (ImGui::Button("Undo"))
+			Undo();
+		ImGui::SameLine();
+		if (ImGui::Button("Redo"))
+			Redo();
+	}
+	ImGui::EndGroup();
+	ImGui::Unindent(10.f);
 }

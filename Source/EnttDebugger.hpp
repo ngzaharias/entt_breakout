@@ -1,12 +1,17 @@
 #pragma once
 
+#include "CircularBuffer.hpp"
+
 #include <functional>
 #include <map>
+#include <optional>
 #include <set>
 #include <string>
+#include <queue>
 #include <vector>
 
 #include <entt/fwd.hpp>
+#include <entt/entity/entity.hpp>
 
 namespace sf
 {
@@ -43,6 +48,19 @@ namespace debug
 		bool IsShowingOrphans = false;
 	};
 
+	struct Selection
+	{
+		static constexpr int Capacity = 10;
+		enum class Action { Select, Undo, Redo };
+		using TRequest = std::optional<std::pair<Action, entt::entity>>;
+		using THistory = CircularBuffer<entt::entity, Capacity>;
+
+		entt::entity Current = entt::null;
+		TRequest Request;
+		THistory Undos;
+		THistory Redos;
+	};
+
 	class EnttDebugger
 	{
 		using WidgetCallback = std::function<void(entt::registry&, entt::entity&)>;
@@ -57,13 +75,21 @@ namespace debug
 		void Update(entt::registry& registry, const sf::Time& time);
 		void Render(entt::registry& registry);
 
+		void Select(const entt::entity& entity);
+		void Undo();
+		void Redo();
+
 	private:
 		template <class Component>
 		void RegisterComponent(WidgetCallback&& callback);
 
+		// main sections
 		void RenderComponents(entt::registry& registry);
 		void RenderEntities(entt::registry& registry);
 		void RenderSelected(entt::registry& registry);
+
+		// sub sections
+		void RenderUndoRedo(entt::registry& registry);
 
 	private:
 		ComponentSettings m_ComponentSettings;
@@ -71,9 +97,10 @@ namespace debug
 		std::map<entt::id_type, WidgetCallback> m_ComponentWidgets;
 
 		EntitySettings m_EntitySettings;
-		entt::entity m_EntitySelected;
 		std::vector<EntityInfo> m_EntityInfo;
 		std::set<entt::entity> m_EntityOrphans;
+
+		Selection m_Selection;
 
 		bool m_IsWindowVisible;
 	};

@@ -14,6 +14,7 @@
     <ClInclude Include="..\..\Source\Application.hpp" />
     <ClInclude Include="..\..\Source\BallSettings.hpp" />
     <ClInclude Include="..\..\Source\BrickSettings.hpp" />
+    <ClInclude Include="..\..\Source\CircularBuffer.hpp" />
     <ClInclude Include="..\..\Source\Components\Camera.hpp" />
     <ClInclude Include="..\..\Source\Components\Collider.hpp" />
     <ClInclude Include="..\..\Source\Components\Level.hpp" />
@@ -62,6 +63,7 @@
     <ClCompile Include="..\..\Source\VectorHelper.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\Source\CircularBuffer.inl" />
     <None Include="..\..\Source\EnttDebugger.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
