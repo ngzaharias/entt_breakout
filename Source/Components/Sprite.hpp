@@ -1,11 +1,12 @@
 #pragma once
 
 #include <SFML/Graphics/RectangleShape.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 
 namespace render
 {
 	struct Sprite
 	{
-		sf::RectangleShape m_Shape = sf::RectangleShape();
+		sf::Sprite m_Sprite = sf::Sprite();
 	};
 }

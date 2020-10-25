@@ -50,6 +50,10 @@ namespace core
 		PaddleSettings m_PaddleSettings;
 
 	private:
+		sf::Texture m_BallTexture;
+		std::vector<sf::Texture> m_BrickTextures;
+		sf::Texture m_PaddleTexture;
+
 		// #todo: move out of level system
 		sf::Font m_font;
 		sf::Text m_infoText;

@@ -129,52 +129,6 @@ void debug::EnttDebugger::Initialise(entt::registry& registry)
 		if (ImGui::CollapsingHeader("Velocity"))
 			ImGui::DragFloat2("", &component.m_Velocity.x);
 	});
-
-	RegisterWidget<render::Sprite>([](entt::registry & registry, entt::entity & entity)
-	{
-		auto& component = registry.get<render::Sprite>(entity);
-
-		if (ImGui::CollapsingHeader("Fill Color"))
-		{
-			auto color = component.m_Shape.getFillColor();
-			float values[4] = { color.r / 255.f, color.g / 255.f, color.b / 255.f, color.a / 255.f };
-			ImGui::ColorEdit4("", values, ImGuiColorEditFlags_Uint8);
-			color.r = static_cast<sf::Uint8>(values[0] * 255.f);
-			color.g = static_cast<sf::Uint8>(values[1] * 255.f);
-			color.b = static_cast<sf::Uint8>(values[2] * 255.f);
-			color.a = static_cast<sf::Uint8>(values[3] * 255.f);
-			component.m_Shape.setFillColor(color);
-		}
-
-		if (ImGui::CollapsingHeader("Outline Color"))
-		{
-			auto color = component.m_Shape.getOutlineColor();
-			float values[4] = { color.r / 255.f, color.g / 255.f, color.b / 255.f, color.a / 255.f };
-			ImGui::ColorEdit4("", values, ImGuiColorEditFlags_Uint8);
-			color.r = static_cast<sf::Uint8>(values[0] * 255.f);
-			color.g = static_cast<sf::Uint8>(values[1] * 255.f);
-			color.b = static_cast<sf::Uint8>(values[2] * 255.f);
-			color.a = static_cast<sf::Uint8>(values[3] * 255.f);
-			component.m_Shape.setOutlineColor(color);
-		}
-
-		if (ImGui::CollapsingHeader("Outline Thickness"))
-		{
-			float value = component.m_Shape.getOutlineThickness();
-			ImGui::DragFloat("", &value);
-			component.m_Shape.setOutlineThickness(value);
-		}
-
-		if (ImGui::CollapsingHeader("Size"))
-		{
-			auto size = component.m_Shape.getSize();
-			float values[2] = { size.x, size.y };
-			ImGui::DragFloat2("Size", values);
-			size.x = values[0];
-			size.y = values[1];
-			component.m_Shape.setSize(size);
-		}
-	});
 }
 
 void debug::EnttDebugger::Destory(entt::registry& registry)

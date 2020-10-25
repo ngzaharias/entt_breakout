@@ -21,6 +21,21 @@
 #include <rapidjson/document.h>
 #include <SFML/Graphics.hpp>
 
+namespace
+{
+	constexpr char* s_TexturePath_Ball = "Assets/Textures/T_Ball_Blue.png";
+	constexpr char* s_TexturePath_Bricks[] =
+	{
+		"Assets/Textures/T_Brick_Gray.png"
+		, "Assets/Textures/T_Brick_Blue.png"
+		, "Assets/Textures/T_Brick_Purple.png"
+		, "Assets/Textures/T_Brick_Green.png"
+		, "Assets/Textures/T_Brick_Yellow.png"
+		, "Assets/Textures/T_Brick_Red.png"
+	};
+	constexpr char* s_TexturePath_Paddle = "Assets/Textures/T_Paddle_Blue.png";
+}
+
 core::LevelSystem::LevelSystem()
 {
 }
@@ -63,6 +78,18 @@ void core::LevelSystem::Draw(sf::RenderWindow* window)
 
 bool core::LevelSystem::Load(entt::registry& registry, const std::string& path)
 {
+	// textures
+	{
+		m_BallTexture.loadFromFile(s_TexturePath_Ball);
+		for (const char* path : s_TexturePath_Bricks)
+		{
+			sf::Texture texture;
+			texture.loadFromFile(path);
+			m_BrickTextures.push_back(texture);
+		}
+		m_PaddleTexture.loadFromFile(s_TexturePath_Paddle);
+	}
+
 	// level
 	{
 		rapidjson::Document document;
@@ -88,7 +115,7 @@ bool core::LevelSystem::Load(entt::registry& registry, const std::string& path)
 		m_scoreText.setStyle(sf::Text::Bold);
 	}
 
-	// balls
+	// ball
 	{
 		entt::entity entity = registry.create();
 		auto& collider = registry.emplace<physics::Collider>(entity);
@@ -100,18 +127,20 @@ bool core::LevelSystem::Load(entt::registry& registry, const std::string& path)
 		auto& transform = registry.emplace<core::Transform>(entity);
 		auto& velocity = registry.emplace<physics::Velocity>(entity);
 
+		const sf::Vector2f size = sf::Vector2f(m_BallTexture.getSize());
+		const sf::Vector2f extents = size * 0.5f;
+
 		sf::Vector2f direction = sf::Vector2f(random::Range(-0.5f, 0.5f), random::Range(-1.0f, 0.5f));
 		direction = sf::Vector2f(0.f, -1.f);
 		direction = VectorHelper::Normalize(direction);
 
-		collider.m_Extents = m_BallSettings.size * 0.5f;
+		collider.m_Extents = extents;
 		level.m_Name = path;
 		level.m_Path = path;
 		name.m_Name = "ball_0";
 		name.m_Name += " (" + level.m_Name + ")";
-		sprite.m_Shape.setFillColor(sf::Color::Blue);
-		sprite.m_Shape.setOrigin(m_BallSettings.size * 0.5f);
-		sprite.m_Shape.setSize(m_BallSettings.size);
+		sprite.m_Sprite.setOrigin(extents);
+		sprite.m_Sprite.setTexture(m_BallTexture);
 		transform.m_Translate = m_BallSettings.position;
 		velocity.m_Velocity = direction * m_BallSettings.velocityMin;
 	}
@@ -128,14 +157,17 @@ bool core::LevelSystem::Load(entt::registry& registry, const std::string& path)
 		auto& tag = registry.emplace<tag::Brick>(entity);
 		auto& transform = registry.emplace<core::Transform>(entity);
 
-		collider.m_Extents = settings.size * 0.5f;
+		const sf::Texture& texture = m_BrickTextures[settings.textureId];
+		const sf::Vector2f size = sf::Vector2f(texture.getSize());
+		const sf::Vector2f extents = size * 0.5f;
+
+		collider.m_Extents = extents;
 		level.m_Name = path;
 		level.m_Path = path;
 		name.m_Name = "brick_" + std::to_string(index++);
 		name.m_Name += " (" + level.m_Name + ")";
-		sprite.m_Shape.setFillColor(sf::Color::Green);
-		sprite.m_Shape.setOrigin(settings.size * 0.5f);
-		sprite.m_Shape.setSize(settings.size);
+		sprite.m_Sprite.setOrigin(extents);
+		sprite.m_Sprite.setTexture(texture);
 		transform.m_Translate = settings.position;
 	}
 
@@ -155,7 +187,7 @@ bool core::LevelSystem::Load(entt::registry& registry, const std::string& path)
 		transform.m_Translate = sf::Vector2f(0.f, 0.f);
 	}
 
-	// paddles
+	// paddle
 	{
 		entt::entity entity = registry.create();
 		auto& collider = registry.emplace<physics::Collider>(entity);
@@ -165,24 +197,26 @@ bool core::LevelSystem::Load(entt::registry& registry, const std::string& path)
 		auto& tag = registry.emplace<tag::Paddle>(entity);
 		auto& transform = registry.emplace<core::Transform>(entity);
 
-		collider.m_Extents = m_PaddleSettings.size * 0.5f;
+		const sf::Texture& texture = m_PaddleTexture;
+		const sf::Vector2f size = sf::Vector2f(texture.getSize());
+		const sf::Vector2f extents = size * 0.5f;
+
+		collider.m_Extents = extents;
 		level.m_Name = path;
 		level.m_Path = path;
 		name.m_Name = "paddle_0";
 		name.m_Name += " (" + level.m_Name + ")";
-		sprite.m_Shape.setFillColor(sf::Color::White);
-		sprite.m_Shape.setOrigin(m_PaddleSettings.size * 0.5f);
-		sprite.m_Shape.setSize(m_PaddleSettings.size);
+		sprite.m_Sprite.setOrigin(extents);
+		sprite.m_Sprite.setTexture(texture);
 		transform.m_Translate = m_PaddleSettings.position;
 	}
 
-	// respawners
+	// respawn zone
 	{
 		entt::entity entity = registry.create();
 		auto& collider = registry.emplace<physics::Collider>(entity);
 		auto& level = registry.emplace<core::Level>(entity);
 		auto& name = registry.emplace<debug::Name>(entity);
-		auto& sprite = registry.emplace<render::Sprite>(entity);
 		auto& tag = registry.emplace<tag::RespawnZone>(entity);
 		auto& transform = registry.emplace<core::Transform>(entity);
 
@@ -191,9 +225,6 @@ bool core::LevelSystem::Load(entt::registry& registry, const std::string& path)
 		level.m_Path = path;
 		name.m_Name = "respawn_zone_0";
 		name.m_Name += " (" + level.m_Name + ")";
-		sprite.m_Shape.setFillColor(sf::Color::Transparent);
-		sprite.m_Shape.setOrigin(collider.m_Extents);
-		sprite.m_Shape.setSize(collider.m_Extents * 2.f);
 		transform.m_Translate = sf::Vector2f(0.f, Screen::height * 0.5f);
 	}
 
@@ -203,7 +234,6 @@ bool core::LevelSystem::Load(entt::registry& registry, const std::string& path)
 		auto& collider = registry.emplace<physics::Collider>(entity);
 		auto& level = registry.emplace<core::Level>(entity);
 		auto& name = registry.emplace<debug::Name>(entity);
-		auto& sprite = registry.emplace<render::Sprite>(entity);
 		auto& tag = registry.emplace<tag::Wall>(entity);
 		auto& transform = registry.emplace<core::Transform>(entity);
 
@@ -212,9 +242,6 @@ bool core::LevelSystem::Load(entt::registry& registry, const std::string& path)
 		level.m_Path = path;
 		name.m_Name = "wall_0";
 		name.m_Name += " (" + level.m_Name + ")";
-		sprite.m_Shape.setFillColor(sf::Color::Transparent);
-		sprite.m_Shape.setOrigin(collider.m_Extents);
-		sprite.m_Shape.setSize(collider.m_Extents * 2.f);
 		transform.m_Translate = sf::Vector2f(0.f, Screen::height * -0.5f);
 	}
 
@@ -224,7 +251,6 @@ bool core::LevelSystem::Load(entt::registry& registry, const std::string& path)
 		auto& collider = registry.emplace<physics::Collider>(entity);
 		auto& level = registry.emplace<core::Level>(entity);
 		auto& name = registry.emplace<debug::Name>(entity);
-		auto& sprite = registry.emplace<render::Sprite>(entity);
 		auto& tag = registry.emplace<tag::Wall>(entity);
 		auto& transform = registry.emplace<core::Transform>(entity);
 
@@ -233,9 +259,6 @@ bool core::LevelSystem::Load(entt::registry& registry, const std::string& path)
 		level.m_Path = path;
 		name.m_Name = "wall_1";
 		name.m_Name += " (" + level.m_Name + ")";
-		sprite.m_Shape.setFillColor(sf::Color::Transparent);
-		sprite.m_Shape.setOrigin(collider.m_Extents);
-		sprite.m_Shape.setSize(collider.m_Extents * 2.f);
 		transform.m_Translate = sf::Vector2f(Screen::width * -0.5f, 0.f);
 	}
 
@@ -245,7 +268,6 @@ bool core::LevelSystem::Load(entt::registry& registry, const std::string& path)
 		auto& collider = registry.emplace<physics::Collider>(entity);
 		auto& level = registry.emplace<core::Level>(entity);
 		auto& name = registry.emplace<debug::Name>(entity);
-		auto& sprite = registry.emplace<render::Sprite>(entity);
 		auto& tag = registry.emplace<tag::Wall>(entity);
 		auto& transform = registry.emplace<core::Transform>(entity);
 
@@ -254,9 +276,6 @@ bool core::LevelSystem::Load(entt::registry& registry, const std::string& path)
 		level.m_Path = path;
 		name.m_Name = "wall_2";
 		name.m_Name += " (" + level.m_Name + ")";
-		sprite.m_Shape.setFillColor(sf::Color::Transparent);
-		sprite.m_Shape.setOrigin(collider.m_Extents);
-		sprite.m_Shape.setSize(collider.m_Extents * 2.f);
 		transform.m_Translate = sf::Vector2f(Screen::width * 0.5f, 0.f);
 	}
 

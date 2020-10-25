@@ -39,10 +39,11 @@ void render::RenderSystem::Update(entt::registry& registry, sf::RenderWindow* wi
 			auto& sprite = renderView.get<render::Sprite>(renderEntity);
 			auto& transform = renderView.get<core::Transform>(renderEntity);
 
-			sprite.m_Shape.setPosition(transform.m_Translate);
-			sprite.m_Shape.setRotation(transform.m_Rotate);
-			sprite.m_Shape.setScale(transform.m_Scale);
-			window->draw(sprite.m_Shape);
+			sprite.m_Sprite.setPosition(transform.m_Translate);
+			sprite.m_Sprite.setRotation(transform.m_Rotate);
+			sprite.m_Sprite.setScale(transform.m_Scale);
+
+			window->draw(sprite.m_Sprite);
 		}
 	}
 }

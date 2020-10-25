@@ -12,7 +12,7 @@
 
 namespace
 {
-	constexpr char* s_Impacts[] =
+	constexpr char* s_SoundPath_Impacts[] =
 	{
 		//"Assets/Audio/S_Example.ogg"
 		"Assets/Audio/S_Impact_Generic_001.ogg"
@@ -33,7 +33,7 @@ audio::SoundSystem::~SoundSystem()
 
 void audio::SoundSystem::Initialize()
 {
-	for (const char* path : s_Impacts)
+	for (const char* path : s_SoundPath_Impacts)
 	{
 		sf::SoundBuffer buffer;
 		if (LoadResource(path, buffer))
