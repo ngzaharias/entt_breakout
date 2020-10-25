@@ -11,11 +11,11 @@ namespace sf
 
 namespace physics
 {
-	class Scene
+	class PhysicsSystem
 	{
 	public:
-		Scene();
-		~Scene();
+		PhysicsSystem();
+		~PhysicsSystem();
 
 		void Update(entt::registry& registry, const sf::Time& time);
 

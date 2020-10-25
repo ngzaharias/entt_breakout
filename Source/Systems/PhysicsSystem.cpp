@@ -1,4 +1,4 @@
-#include "Scene.hpp"
+#include "PhysicsSystem.hpp"
 
 #include "Math.hpp"
 #include "VectorHelper.hpp"
@@ -13,15 +13,15 @@
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/System/Time.hpp>
 
-physics::Scene::Scene()
+physics::PhysicsSystem::PhysicsSystem()
 {
 }
 
-physics::Scene::~Scene()
+physics::PhysicsSystem::~PhysicsSystem()
 {
 }
 
-void physics::Scene::Update(entt::registry& registry, const sf::Time& time)
+void physics::PhysicsSystem::Update(entt::registry& registry, const sf::Time& time)
 {
 	const float deltaTime = Math::Min(0.1f, time.asSeconds());
 

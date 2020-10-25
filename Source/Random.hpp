@@ -1,13 +1,13 @@
 #pragma once
 
-#include <random>
-
-namespace Random
+namespace random
 {
-	//#todo: specify allowed types
-	template<typename T> T Range(const T& min, const T& max)
-	{
-		T r = std::rand() / (T)RAND_MAX;
-		return (r * (max - min)) + min;
-	}
+	// #todo: specify allowed types
+	template<typename Type>
+	Type Range(const Type& min, const Type& max);
+
+	template<>
+	inline float Range<float>(const float& min, const float& max);
 }
+
+#include "Random.inl"

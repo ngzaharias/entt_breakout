@@ -72,21 +72,14 @@ debug::EnttDebugger::~EnttDebugger()
 
 void debug::EnttDebugger::Initialise(entt::registry& registry)
 {
-	RegisterComponent<core::Camera>([](entt::registry& registry, entt::entity& entity)
+	RegisterWidget<core::Camera>([](entt::registry& registry, entt::entity& entity)
 	{
 		auto& component = registry.get<core::Camera>(entity);
 		if (ImGui::CollapsingHeader("Size"))
 			ImGui::DragFloat2("", &component.m_Size.x);
 	});
 
-	RegisterComponent<core::Camera>([](entt::registry& registry, entt::entity& entity)
-	{
-		auto& component = registry.get<core::Camera>(entity);
-		if (ImGui::CollapsingHeader("Size"))
-			ImGui::DragFloat2("", &component.m_Size.x);
-	});
-
-	RegisterComponent<core::Level>([](entt::registry & registry, entt::entity & entity)
+	RegisterWidget<core::Level>([](entt::registry& registry, entt::entity& entity)
 	{
 		auto& component = registry.get<core::Level>(entity);
 		if (ImGui::CollapsingHeader("Name"))
@@ -95,7 +88,7 @@ void debug::EnttDebugger::Initialise(entt::registry& registry)
 			ImGui::Text("%s", component.m_Path.c_str());
 	});
 
-	RegisterComponent<core::Transform>([](entt::registry& registry, entt::entity& entity)
+	RegisterWidget<core::Transform>([](entt::registry& registry, entt::entity& entity)
 	{
 		auto& component = registry.get<core::Transform>(entity);
 
@@ -115,13 +108,13 @@ void debug::EnttDebugger::Initialise(entt::registry& registry)
 		ImGui::PopID();
 	});
 
-	RegisterComponent<debug::Name>([](entt::registry & registry, entt::entity & entity)
+	RegisterWidget<debug::Name>([](entt::registry& registry, entt::entity& entity)
 	{
 		auto& component = registry.get<debug::Name>(entity);
 		ImGui::Text("%s", component.m_Name.c_str());
 	});
 
-	RegisterComponent<physics::Collider>([](entt::registry & registry, entt::entity & entity)
+	RegisterWidget<physics::Collider>([](entt::registry& registry, entt::entity& entity)
 	{
 		auto& component = registry.get<physics::Collider>(entity);
 
@@ -129,7 +122,7 @@ void debug::EnttDebugger::Initialise(entt::registry& registry)
 			ImGui::DragFloat2("", &component.m_Extents.x);
 	});
 
-	RegisterComponent<physics::Velocity>([](entt::registry & registry, entt::entity & entity)
+	RegisterWidget<physics::Velocity>([](entt::registry& registry, entt::entity& entity)
 	{
 		auto& component = registry.get<physics::Velocity>(entity);
 
@@ -137,7 +130,7 @@ void debug::EnttDebugger::Initialise(entt::registry& registry)
 			ImGui::DragFloat2("", &component.m_Velocity.x);
 	});
 
-	RegisterComponent<render::Sprite>([](entt::registry & registry, entt::entity & entity)
+	RegisterWidget<render::Sprite>([](entt::registry & registry, entt::entity & entity)
 	{
 		auto& component = registry.get<render::Sprite>(entity);
 

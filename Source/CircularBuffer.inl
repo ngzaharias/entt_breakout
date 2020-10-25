@@ -1,11 +1,5 @@
 #pragma once
 
-namespace
-{
-	template <typename... TTypes>
-	constexpr bool v_AllSameTypes = (std::is_same<FirstType<TTypes...>, TTypes>::value && ...);
-}
-
 template<class Type, int t_Capacity>
 template <typename ... Types>
 constexpr CircularBuffer<Type, t_Capacity>::CircularBuffer(Types&&... values)
@@ -97,15 +91,17 @@ void CircularBuffer<Type, t_Capacity>::RemoveAll()
 }
 
 template<class Type, int t_Capacity>
-void CircularBuffer<Type, t_Capacity>::Pop()
+auto CircularBuffer<Type, t_Capacity>::Pop()->Type
 {
 	assert(m_Count > 0);
+	const Type& value = m_Array[m_Tail];
 	m_Tail = (--m_Tail + t_Capacity) % t_Capacity;
 	m_Count--;
+	return value;
 }
 
 template<class Type, int t_Capacity>
-void CircularBuffer<Type, t_Capacity>::Push(const Type& value)
+auto CircularBuffer<Type, t_Capacity>::Push(const Type& value)->Type&
 {
 	m_Tail = ++m_Tail % t_Capacity;
 	m_Array[m_Tail] = value;
@@ -114,4 +110,5 @@ void CircularBuffer<Type, t_Capacity>::Push(const Type& value)
 		m_Count = t_Capacity;
 		m_Head = ++m_Head % t_Capacity;
 	}
+	return m_Array[m_Tail];
 }

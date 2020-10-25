@@ -57,8 +57,8 @@ namespace debug
 
 		entt::entity Current = entt::null;
 		TRequest Request;
-		THistory Undos;
-		THistory Redos;
+		THistory Undos = { };
+		THistory Redos = { };
 	};
 
 	class EnttDebugger
@@ -81,7 +81,7 @@ namespace debug
 
 	private:
 		template <class Component>
-		void RegisterComponent(WidgetCallback&& callback);
+		void RegisterWidget(WidgetCallback&& callback);
 
 		// main sections
 		void RenderComponents(entt::registry& registry);

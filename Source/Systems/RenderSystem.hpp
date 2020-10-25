@@ -9,11 +9,11 @@ namespace sf
 
 namespace render
 {
-	class Renderer
+	class RenderSystem
 	{
 	public:
-		Renderer();
-		~Renderer();
+		RenderSystem();
+		~RenderSystem();
 
 		void Update(entt::registry& registry, sf::RenderWindow* window);
 	};

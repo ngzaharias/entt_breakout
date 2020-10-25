@@ -1,10 +1,12 @@
 #pragma once
 
-#include <entt/fwd.hpp>
-
 #include "EnttDebugger.hpp"
-#include "Systems/Renderer.hpp"
-#include "Systems/Scene.hpp"
+#include "Systems/LevelSystem.hpp"
+#include "Systems/PhysicsSystem.hpp"
+#include "Systems/RenderSystem.hpp"
+#include "Systems/SoundSystem.hpp"
+
+#include <entt/fwd.hpp>
 
 namespace sf
 {
@@ -30,8 +32,6 @@ public:
 	void Pause();
 	void Unpause();
 
-	Map& GetMap() const;
-
 private:
 	void OnCollision(const entt::entity& entityA, const entt::entity& entityB);
 
@@ -40,14 +40,15 @@ public:
 
 public:
 	entt::registry* m_Registry;
-	physics::Scene m_Scene;
-	render::Renderer m_Renderer;
-	debug::EnttDebugger m_EnttDebugger;
 
-	Map* m_Map;
+	debug::EnttDebugger m_EnttDebugger;
+	core::LevelSystem m_LevelSystem;
+	physics::PhysicsSystem m_PhysicsSystem;
+	render::RenderSystem m_RenderSystem;
+	audio::SoundSystem m_SoundSystem;
+
 	bool m_IsPaused = false;
 
 protected:
 	static Game* s_Instance;
-
 };

@@ -2,7 +2,7 @@
 
 #include <SFML/Graphics/Text.hpp>
 
-namespace core
+namespace game
 {
 	struct Lives
 	{

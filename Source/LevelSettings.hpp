@@ -3,7 +3,7 @@
 #include <rapidjson/document.h>
 #include <string>
 
-struct MapSettings
+struct LevelSettings
 {
 	void Parse(const rapidjson::Value& value);
 

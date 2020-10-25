@@ -22,6 +22,7 @@
     <ClInclude Include="..\..\Source\Components\Name.hpp" />
     <ClInclude Include="..\..\Source\Components\Rigidbody.hpp" />
     <ClInclude Include="..\..\Source\Components\Score.hpp" />
+    <ClInclude Include="..\..\Source\Components\Sound.hpp" />
     <ClInclude Include="..\..\Source\Components\Sprite.hpp" />
     <ClInclude Include="..\..\Source\Components\Tags.hpp" />
     <ClInclude Include="..\..\Source\Components\Transform.hpp" />
@@ -30,16 +31,18 @@
     <ClInclude Include="..\..\Source\Game.hpp" />
     <ClInclude Include="..\..\Source\GameApplication.hpp" />
     <ClInclude Include="..\..\Source\JsonHelper.hpp" />
-    <ClInclude Include="..\..\Source\Map.hpp" />
-    <ClInclude Include="..\..\Source\MapSettings.hpp" />
+    <ClInclude Include="..\..\Source\LevelSettings.hpp" />
     <ClInclude Include="..\..\Source\Math.hpp" />
+    <ClInclude Include="..\..\Source\ObjectPool.hpp" />
     <ClInclude Include="..\..\Source\PaddleSettings.hpp" />
     <ClInclude Include="..\..\Source\Random.hpp" />
     <ClInclude Include="..\..\Source\Screen.hpp" />
     <ClInclude Include="..\..\Source\StringHelper.hpp" />
-    <ClInclude Include="..\..\Source\Systems\Level.hpp" />
-    <ClInclude Include="..\..\Source\Systems\Renderer.hpp" />
-    <ClInclude Include="..\..\Source\Systems\Scene.hpp" />
+    <ClInclude Include="..\..\Source\Systems\LevelSystem.hpp" />
+    <ClInclude Include="..\..\Source\Systems\PhysicsSystem.hpp" />
+    <ClInclude Include="..\..\Source\Systems\RenderSystem.hpp" />
+    <ClInclude Include="..\..\Source\Systems\SoundSystem.hpp" />
+    <ClInclude Include="..\..\Source\Types.hpp" />
     <ClInclude Include="..\..\Source\VectorHelper.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -50,21 +53,23 @@
     <ClCompile Include="..\..\Source\Game.cpp" />
     <ClCompile Include="..\..\Source\GameApplication.cpp" />
     <ClCompile Include="..\..\Source\JsonHelper.cpp" />
+    <ClCompile Include="..\..\Source\LevelSettings.cpp" />
     <ClCompile Include="..\..\Source\Main.cpp" />
-    <ClCompile Include="..\..\Source\Map.cpp" />
-    <ClCompile Include="..\..\Source\MapSettings.cpp" />
     <ClCompile Include="..\..\Source\Math.cpp" />
     <ClCompile Include="..\..\Source\PaddleSettings.cpp" />
     <ClCompile Include="..\..\Source\Screen.cpp" />
     <ClCompile Include="..\..\Source\StringHelper.cpp" />
-    <ClCompile Include="..\..\Source\Systems\Level.cpp" />
-    <ClCompile Include="..\..\Source\Systems\Renderer.cpp" />
-    <ClCompile Include="..\..\Source\Systems\Scene.cpp" />
+    <ClCompile Include="..\..\Source\Systems\LevelSystem.cpp" />
+    <ClCompile Include="..\..\Source\Systems\PhysicsSystem.cpp" />
+    <ClCompile Include="..\..\Source\Systems\RenderSystem.cpp" />
+    <ClCompile Include="..\..\Source\Systems\SoundSystem.cpp" />
     <ClCompile Include="..\..\Source\VectorHelper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Source\CircularBuffer.inl" />
     <None Include="..\..\Source\EnttDebugger.inl" />
+    <None Include="..\..\Source\ObjectPool.inl" />
+    <None Include="..\..\Source\Random.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{2471547F-763A-49BA-9A17-6814171F1849}</ProjectGuid>

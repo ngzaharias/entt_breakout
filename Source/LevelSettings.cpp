@@ -1,8 +1,8 @@
-#include "MapSettings.hpp"
+#include "LevelSettings.hpp"
 
 #include "JsonHelper.hpp"
 
-void MapSettings::Parse(const rapidjson::Value& value)
+void LevelSettings::Parse(const rapidjson::Value& value)
 {
 	if (value.IsObject() == false)
 		return;

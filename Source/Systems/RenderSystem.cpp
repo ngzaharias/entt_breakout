@@ -1,4 +1,4 @@
-#include "Renderer.hpp"
+#include "RenderSystem.hpp"
 
 #include "Components/Camera.hpp"
 #include "Components/Sprite.hpp"
@@ -7,15 +7,15 @@
 #include <entt/entt.hpp>
 #include <SFML/Graphics.hpp>
 
-render::Renderer::Renderer()
+render::RenderSystem::RenderSystem()
 {
 }
 
-render::Renderer::~Renderer()
+render::RenderSystem::~RenderSystem()
 {
 }
 
-void render::Renderer::Update(entt::registry& registry, sf::RenderWindow* window)
+void render::RenderSystem::Update(entt::registry& registry, sf::RenderWindow* window)
 {
 	const auto cameraView = registry.view<core::Camera, core::Transform>();
 	for (const entt::entity& cameraEntity : cameraView)

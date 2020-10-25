@@ -13,7 +13,6 @@ class Screen
 public:
 	static sf::RenderWindow* GetWindow();
 	static void SetWindow(sf::RenderWindow* window);
-	static sf::Vector2i AdjustToFullscreenPosition(const sf::Window& window, sf::Vector2i position);
 
 public:
 	static float width;

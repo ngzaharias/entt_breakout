@@ -1,4 +1,4 @@
-#include "Map.hpp"
+#include "LevelSystem.hpp"
 
 #include "Game.hpp"
 #include "JsonHelper.hpp"
@@ -21,20 +21,20 @@
 #include <rapidjson/document.h>
 #include <SFML/Graphics.hpp>
 
-Map::Map()
+core::LevelSystem::LevelSystem()
 {
 }
 
-Map::~Map()
+core::LevelSystem::~LevelSystem()
 {
 }
 
-void Map::Update(entt::registry& registry, const sf::Time& time)
+void core::LevelSystem::Update(entt::registry& registry, const sf::Time& time)
 {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 	{
 		Unload(registry);
-		Load(registry);
+		Load(registry, s_LevelPath);
 		Game::Instance().Unpause();
 	}
 
@@ -54,25 +54,22 @@ void Map::Update(entt::registry& registry, const sf::Time& time)
 	}
 }
 
-void Map::Draw(sf::RenderWindow* window)
+void core::LevelSystem::Draw(sf::RenderWindow* window)
 {
 	window->draw(m_infoText);
 	window->draw(m_livesText);
 	window->draw(m_scoreText);
 }
 
-void Map::Load(entt::registry& registry)
+bool core::LevelSystem::Load(entt::registry& registry, const std::string& path)
 {
-	std::string levelPath = "Assets/Settings/Maps/BasicMap.json";
-	std::string levelName = "BasicMap";
-
 	// level
 	{
 		rapidjson::Document document;
-		if (JsonHelper::LoadDocument(levelPath.c_str(), document) == true)
-		{
-			LoadSettings(document);
-		}
+		if (!JsonHelper::LoadDocument(path.c_str(), document))
+			return false;
+
+		LoadSettings(document);
 
 		m_font.loadFromFile(m_MapSettings.fontpath);
 
@@ -103,13 +100,13 @@ void Map::Load(entt::registry& registry)
 		auto& transform = registry.emplace<core::Transform>(entity);
 		auto& velocity = registry.emplace<physics::Velocity>(entity);
 
-		sf::Vector2f direction = sf::Vector2f(Random::Range(-0.5f, 0.5f), Random::Range(-1.0f, 0.5f));
+		sf::Vector2f direction = sf::Vector2f(random::Range(-0.5f, 0.5f), random::Range(-1.0f, 0.5f));
 		direction = sf::Vector2f(0.f, -1.f);
 		direction = VectorHelper::Normalize(direction);
 
 		collider.m_Extents = m_BallSettings.size * 0.5f;
-		level.m_Name = levelName;
-		level.m_Path = levelPath;
+		level.m_Name = path;
+		level.m_Path = path;
 		name.m_Name = "ball_0";
 		name.m_Name += " (" + level.m_Name + ")";
 		sprite.m_Shape.setFillColor(sf::Color::Blue);
@@ -132,8 +129,8 @@ void Map::Load(entt::registry& registry)
 		auto& transform = registry.emplace<core::Transform>(entity);
 
 		collider.m_Extents = settings.size * 0.5f;
-		level.m_Name = levelName;
-		level.m_Path = levelPath;
+		level.m_Name = path;
+		level.m_Path = path;
 		name.m_Name = "brick_" + std::to_string(index++);
 		name.m_Name += " (" + level.m_Name + ")";
 		sprite.m_Shape.setFillColor(sf::Color::Green);
@@ -151,8 +148,8 @@ void Map::Load(entt::registry& registry)
 		auto& transform = registry.emplace<core::Transform>(entity);
 
 		camera.m_Size = sf::Vector2f(Screen::width, Screen::height);
-		level.m_Name = levelName;
-		level.m_Path = levelPath;
+		level.m_Name = path;
+		level.m_Path = path;
 		name.m_Name = "camera_0";
 		name.m_Name += " (" + level.m_Name + ")";
 		transform.m_Translate = sf::Vector2f(0.f, 0.f);
@@ -169,8 +166,8 @@ void Map::Load(entt::registry& registry)
 		auto& transform = registry.emplace<core::Transform>(entity);
 
 		collider.m_Extents = m_PaddleSettings.size * 0.5f;
-		level.m_Name = levelName;
-		level.m_Path = levelPath;
+		level.m_Name = path;
+		level.m_Path = path;
 		name.m_Name = "paddle_0";
 		name.m_Name += " (" + level.m_Name + ")";
 		sprite.m_Shape.setFillColor(sf::Color::White);
@@ -190,8 +187,8 @@ void Map::Load(entt::registry& registry)
 		auto& transform = registry.emplace<core::Transform>(entity);
 
 		collider.m_Extents = sf::Vector2f(800.f, 20.f);
-		level.m_Name = levelName;
-		level.m_Path = levelPath;
+		level.m_Name = path;
+		level.m_Path = path;
 		name.m_Name = "respawn_zone_0";
 		name.m_Name += " (" + level.m_Name + ")";
 		sprite.m_Shape.setFillColor(sf::Color::Transparent);
@@ -211,8 +208,8 @@ void Map::Load(entt::registry& registry)
 		auto& transform = registry.emplace<core::Transform>(entity);
 
 		collider.m_Extents = sf::Vector2f(800.f, 20.f);
-		level.m_Name = levelName;
-		level.m_Path = levelPath;
+		level.m_Name = path;
+		level.m_Path = path;
 		name.m_Name = "wall_0";
 		name.m_Name += " (" + level.m_Name + ")";
 		sprite.m_Shape.setFillColor(sf::Color::Transparent);
@@ -232,8 +229,8 @@ void Map::Load(entt::registry& registry)
 		auto& transform = registry.emplace<core::Transform>(entity);
 
 		collider.m_Extents = sf::Vector2f(20.f, 600.f);
-		level.m_Name = levelName;
-		level.m_Path = levelPath;
+		level.m_Name = path;
+		level.m_Path = path;
 		name.m_Name = "wall_1";
 		name.m_Name += " (" + level.m_Name + ")";
 		sprite.m_Shape.setFillColor(sf::Color::Transparent);
@@ -253,8 +250,8 @@ void Map::Load(entt::registry& registry)
 		auto& transform = registry.emplace<core::Transform>(entity);
 
 		collider.m_Extents = sf::Vector2f(20.f, 600.f);
-		level.m_Name = levelName;
-		level.m_Path = levelPath;
+		level.m_Name = path;
+		level.m_Path = path;
 		name.m_Name = "wall_2";
 		name.m_Name += " (" + level.m_Name + ")";
 		sprite.m_Shape.setFillColor(sf::Color::Transparent);
@@ -268,13 +265,16 @@ void Map::Load(entt::registry& registry)
 		m_lives = m_MapSettings.lives;
 		m_score = m_MapSettings.score;
 
-		//HACK:
+		// #hack
 		UpdateLives(0);
 		UpdateScore(0);
 	}
+
+	return true;
 }
 
-void Map::Unload(entt::registry& registry)
+
+void core::LevelSystem::Unload(entt::registry& registry)
 {
 	const auto view = registry.view<core::Level>();
 	for (const entt::entity& entity : view)
@@ -283,7 +283,7 @@ void Map::Unload(entt::registry& registry)
 	}
 }
 
-void Map::UpdateLives(int value)
+void core::LevelSystem::UpdateLives(int value)
 {
 	m_lives += value;
 
@@ -298,7 +298,7 @@ void Map::UpdateLives(int value)
 	}
 }
 
-void Map::UpdateScore(int value)
+void core::LevelSystem::UpdateScore(int value)
 {
 	m_score += value;
 
@@ -308,7 +308,7 @@ void Map::UpdateScore(int value)
 	m_scoreText.setString(text);
 }
 
-void Map::LoadSettings(const rapidjson::Value& value)
+void core::LevelSystem::LoadSettings(const rapidjson::Value& value)
 {
 	LoadBallSettings(value);
 	LoadBrickSettings(value);
@@ -316,7 +316,7 @@ void Map::LoadSettings(const rapidjson::Value& value)
 	LoadPaddleSettings(value);
 }
 
-void Map::LoadBallSettings(const rapidjson::Value& value)
+void core::LevelSystem::LoadBallSettings(const rapidjson::Value& value)
 {
 	const char* member = "balls";
 	if (value.HasMember(member) == true && value[member].IsString() == true)
@@ -330,7 +330,7 @@ void Map::LoadBallSettings(const rapidjson::Value& value)
 	}
 }
 
-void Map::LoadBrickSettings(const rapidjson::Value& value)
+void core::LevelSystem::LoadBrickSettings(const rapidjson::Value& value)
 {
 	const char* member = "bricks";
 	if (value.HasMember(member) == true && value[member].IsString() == true)
@@ -357,13 +357,13 @@ void Map::LoadBrickSettings(const rapidjson::Value& value)
 	}
 }
 
-void Map::LoadMapSettings(const rapidjson::Value& value)
+void core::LevelSystem::LoadMapSettings(const rapidjson::Value& value)
 {
 	// map settings
 	m_MapSettings.Parse(value);
 }
 
-void Map::LoadPaddleSettings(const rapidjson::Value& value)
+void core::LevelSystem::LoadPaddleSettings(const rapidjson::Value& value)
 {
 	const char* member = "paddles";
 	if (value.HasMember(member) == true && value[member].IsString() == true)
