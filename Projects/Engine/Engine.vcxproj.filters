@@ -58,9 +58,6 @@
     <ClInclude Include="..\..\Source\Screen.hpp">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\VectorHelper.hpp">
-      <Filter>Source</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Application.hpp">
       <Filter>Source</Filter>
     </ClInclude>
@@ -112,6 +109,9 @@
     <ClInclude Include="..\..\Source\ObjectPool.hpp">
       <Filter>Source</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\VectorHelpers.hpp">
+      <Filter>Source</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\BallSettings.cpp">
@@ -141,9 +141,6 @@
     <ClCompile Include="..\..\Source\Screen.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\VectorHelper.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Application.cpp">
       <Filter>Source</Filter>
     </ClCompile>
@@ -167,6 +164,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Systems\SoundSystem.cpp">
       <Filter>Source\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\VectorHelpers.cpp">
+      <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -5,7 +5,7 @@
 #include "Math.hpp"
 #include "Random.hpp"
 #include "Screen.hpp"
-#include "VectorHelper.hpp"
+#include "VectorHelpers.hpp"
 
 #include "Components/Camera.hpp"
 #include "Components/Collider.hpp"
@@ -129,10 +129,11 @@ bool core::LevelSystem::Load(entt::registry& registry, const std::string& path)
 
 		const sf::Vector2f size = sf::Vector2f(m_BallTexture.getSize());
 		const sf::Vector2f extents = size * 0.5f;
+		const sf::Vector2f scale = { m_BallSettings.size.x / size.x, m_BallSettings.size.y / size.y };
 
 		sf::Vector2f direction = sf::Vector2f(random::Range(-0.5f, 0.5f), random::Range(-1.0f, 0.5f));
 		direction = sf::Vector2f(0.f, -1.f);
-		direction = VectorHelper::Normalize(direction);
+		direction = Normalized(direction);
 
 		collider.m_Extents = extents;
 		level.m_Name = path;
@@ -142,6 +143,7 @@ bool core::LevelSystem::Load(entt::registry& registry, const std::string& path)
 		sprite.m_Sprite.setOrigin(extents);
 		sprite.m_Sprite.setTexture(m_BallTexture);
 		transform.m_Translate = m_BallSettings.position;
+		transform.m_Scale = scale;
 		velocity.m_Velocity = direction * m_BallSettings.velocityMin;
 	}
 
@@ -160,6 +162,7 @@ bool core::LevelSystem::Load(entt::registry& registry, const std::string& path)
 		const sf::Texture& texture = m_BrickTextures[settings.textureId];
 		const sf::Vector2f size = sf::Vector2f(texture.getSize());
 		const sf::Vector2f extents = size * 0.5f;
+		const sf::Vector2f scale = { settings.size.x / size.x, settings.size.y / size.y };
 
 		collider.m_Extents = extents;
 		level.m_Name = path;
@@ -169,6 +172,7 @@ bool core::LevelSystem::Load(entt::registry& registry, const std::string& path)
 		sprite.m_Sprite.setOrigin(extents);
 		sprite.m_Sprite.setTexture(texture);
 		transform.m_Translate = settings.position;
+		transform.m_Scale = scale;
 	}
 
 	// camera
@@ -200,6 +204,7 @@ bool core::LevelSystem::Load(entt::registry& registry, const std::string& path)
 		const sf::Texture& texture = m_PaddleTexture;
 		const sf::Vector2f size = sf::Vector2f(texture.getSize());
 		const sf::Vector2f extents = size * 0.5f;
+		const sf::Vector2f scale = { m_PaddleSettings.size.x / size.x, m_PaddleSettings.size.y / size.y };
 
 		collider.m_Extents = extents;
 		level.m_Name = path;
@@ -209,6 +214,7 @@ bool core::LevelSystem::Load(entt::registry& registry, const std::string& path)
 		sprite.m_Sprite.setOrigin(extents);
 		sprite.m_Sprite.setTexture(texture);
 		transform.m_Translate = m_PaddleSettings.position;
+		transform.m_Scale = scale;
 	}
 
 	// respawn zone

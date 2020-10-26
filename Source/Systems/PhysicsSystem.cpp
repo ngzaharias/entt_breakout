@@ -1,7 +1,7 @@
 #include "PhysicsSystem.hpp"
 
 #include "Math.hpp"
-#include "VectorHelper.hpp"
+#include "VectorHelpers.hpp"
 
 #include "Components/Collider.hpp"
 #include "Components/Name.hpp"
@@ -45,9 +45,12 @@ void physics::PhysicsSystem::Update(entt::registry& registry, const sf::Time& ti
 
 			if (entityA != entityB)
 			{
+				sf::Vector2f extentsA = Multiply(colliderA.m_Extents, transformA.m_Scale);
+				sf::Vector2f extentsB = Multiply(colliderB.m_Extents, transformB.m_Scale);
+
 				sf::FloatRect intersection;
-				sf::FloatRect rectangleA = { transformA.m_Translate - colliderA.m_Extents, colliderA.m_Extents * 2.f };
-				sf::FloatRect rectangleB = { transformB.m_Translate - colliderB.m_Extents, colliderB.m_Extents * 2.f };
+				sf::FloatRect rectangleA = { transformA.m_Translate - extentsA, extentsA * 2.f };
+				sf::FloatRect rectangleB = { transformB.m_Translate - extentsB, extentsB * 2.f };
 				if (rectangleA.intersects(rectangleB, intersection))
 				{
 					// distance of box 'b2' to face on 'left' side of 'b1'.
@@ -60,7 +63,7 @@ void physics::PhysicsSystem::Update(entt::registry& registry, const sf::Time& ti
 					const float bottom = (rectangleB.top + rectangleB.height) - rectangleA.top;
 
 					// #hack: move rigidbody out of the collider
-					const sf::Vector2f direction = VectorHelper::Normalize(velocityA.m_Velocity);
+					const sf::Vector2f direction = Normalized(velocityA.m_Velocity);
 					const sf::Vector2f offset = { direction.x * intersection.width, direction.y * intersection.height };
 					transformA.m_Translate -= offset;
 
@@ -71,7 +74,7 @@ void physics::PhysicsSystem::Update(entt::registry& registry, const sf::Time& ti
 					normal.x = (minX < minY) ? (left < right) ? -1.0f : 1.0f : 0.0f;
 					normal.y = (minX < minY) ? 0.0f : (top < bottom) ? -1.0f : 1.0f;
 
-					velocityA.m_Velocity = VectorHelper::Reflect(velocityA.m_Velocity, normal);
+					velocityA.m_Velocity = Reflect(velocityA.m_Velocity, normal);
 
 					m_OnCollisionSignal.publish(entityA, entityB);
 				}

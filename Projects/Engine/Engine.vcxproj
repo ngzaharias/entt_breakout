@@ -43,7 +43,7 @@
     <ClInclude Include="..\..\Source\Systems\RenderSystem.hpp" />
     <ClInclude Include="..\..\Source\Systems\SoundSystem.hpp" />
     <ClInclude Include="..\..\Source\Types.hpp" />
-    <ClInclude Include="..\..\Source\VectorHelper.hpp" />
+    <ClInclude Include="..\..\Source\VectorHelpers.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Application.cpp" />
@@ -63,7 +63,7 @@
     <ClCompile Include="..\..\Source\Systems\PhysicsSystem.cpp" />
     <ClCompile Include="..\..\Source\Systems\RenderSystem.cpp" />
     <ClCompile Include="..\..\Source\Systems\SoundSystem.cpp" />
-    <ClCompile Include="..\..\Source\VectorHelper.cpp" />
+    <ClCompile Include="..\..\Source\VectorHelpers.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Source\CircularBuffer.inl" />

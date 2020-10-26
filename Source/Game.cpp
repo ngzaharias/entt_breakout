@@ -3,7 +3,7 @@
 #include "Math.hpp"
 #include "Random.hpp"
 #include "Screen.hpp"
-#include "VectorHelper.hpp"
+#include "VectorHelpers.hpp"
 
 #include "Components/Tags.hpp"
 #include "Components/Transform.hpp"
@@ -95,18 +95,18 @@ void Game::OnCollision(const entt::entity& entityA, const entt::entity& entityB)
 
 		const sf::Vector2f ballPosition = ballTransform.m_Translate;
 		const sf::Vector2f paddlePosition = paddleTransform.m_Translate;
-		const sf::Vector2f directionToBall = VectorHelper::Normalize(ballPosition - paddlePosition);
+		const sf::Vector2f directionToBall = Normalized(ballPosition - paddlePosition);
 
-		const float dot = VectorHelper::Dot(directionToBall, sf::Vector2f(0.0f, -1.0f));
+		const float dot = Dot(directionToBall, sf::Vector2f(0.0f, -1.0f));
 		const float influenceX = Math::Clamp(directionToBall.x, -0.7f, 0.7f);
 		const float influenceY = -Math::Clamp(dot + 0.2f, 0.0f, 1.0f);
 
-		float length = VectorHelper::Length(ballVelocity.m_Velocity);
+		float length = Length(ballVelocity.m_Velocity);
 		length = Math::Min<float>(length + 100.0f, m_LevelSystem.m_BallSettings.velocityMax);
 
 		sf::Vector2f directionOld = ballVelocity.m_Velocity / length;
 		sf::Vector2f directionNew = sf::Vector2f(influenceX, influenceY);
-		directionNew = VectorHelper::Normalize(directionOld + directionNew);
+		directionNew = Normalized(directionOld + directionNew);
 		ballVelocity.m_Velocity = directionNew * length;
 
 		m_SoundSystem.PlaySound(audio::Name::Impact);
@@ -120,7 +120,7 @@ void Game::OnCollision(const entt::entity& entityA, const entt::entity& entityB)
 		m_LevelSystem.UpdateLives(-1);
 
 		sf::Vector2f direction = sf::Vector2f(random::Range(-0.5f, 0.5f), random::Range(-1.0f, -0.5f));
-		direction = VectorHelper::Normalize(direction);
+		direction = Normalized(direction);
 
 		ballTransform.m_Translate = m_LevelSystem.m_BallSettings.position;
 		ballVelocity.m_Velocity = direction * m_LevelSystem.m_BallSettings.velocityMin;
